@@ -17,16 +17,17 @@ const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
+      {/* <Stack.Screen
+        name="splash"
+        component={SplashScreen}
+        options={{ headerShown: false }}
+      /> */}
       <Stack.Screen
         name="bottom-tab"
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="splash"
-        component={SplashScreen}
-        options={{ headerShown: false }}
-      />
+
       <Stack.Screen name="login" component={LoginScreen} />
       <Stack.Screen name="register" component={RegisterScreen} />
       <Stack.Screen name="add-product" component={AddProductScreen} />
