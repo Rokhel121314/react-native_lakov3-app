@@ -18,13 +18,13 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="splash"
-        component={SplashScreen}
+        name="bottom-tab"
+        component={TabNavigator}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="bottom-tab"
-        component={TabNavigator}
+        name="splash"
+        component={SplashScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen name="login" component={LoginScreen} />
