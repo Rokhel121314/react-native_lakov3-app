@@ -1,11 +1,23 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
 import React from "react";
 
-const InventoryScreen = () => {
+const InventoryScreen = ({ navigation }) => {
   return (
-    <View>
+    <SafeAreaView>
+      <StatusBar />
       <Text>InventoryScreen</Text>
-    </View>
+      <Button
+        title="add product"
+        onPress={() => navigation.navigate("add-product")}
+      />
+    </SafeAreaView>
   );
 };
 
