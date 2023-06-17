@@ -7,11 +7,21 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/userSlice";
 
 const LoginScreen = ({ navigation }) => {
+  const { userData, isLoading } = useSelector((state) => state.user);
+  console.log("userData", userData, "isLoading ", isLoading);
+  const dispatch = useDispatch();
+  const [loginData, setLoginData] = useState({
+    user_name: "",
+    user_password: "",
+  });
+
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
       <StatusBar backgroundColor={"#344c57"} />
@@ -22,13 +32,23 @@ const LoginScreen = ({ navigation }) => {
         <TextInput
           placeholder="EMAIL"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl"
+          value={loginData.user_name}
+          onChangeText={(text) =>
+            setLoginData({ ...loginData, user_name: text })
+          }
         />
         <TextInput
           placeholder="PASSWORD"
           secureTextEntry={true}
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl mt-5"
+          value={loginData.user_password}
+          onChangeText={(text) =>
+            setLoginData({ ...loginData, user_password: text })
+          }
         />
-        <TouchableOpacity className="mt-10 w-4/5">
+        <TouchableOpacity
+          className="mt-10 w-4/5"
+          onPress={() => dispatch(login(loginData))}>
           <Text className="bg-gray-50 py-2 text-center text-blue-dianne font-bold tracking-wide text-lg rounded-3xl">
             SIGN IN
           </Text>

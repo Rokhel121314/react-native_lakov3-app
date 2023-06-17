@@ -22,7 +22,11 @@ const StackNavigator = () => {
         component={LoginScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="register" component={RegisterScreen} />
+      <Stack.Screen
+        name="register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="bottom-tab"
         component={TabNavigator}
