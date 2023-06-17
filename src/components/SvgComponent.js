@@ -75,7 +75,7 @@ const SvgComponent = () => {
    </g>
    </svg>
    `;
-  return <SvgXml xml={logoSvg} width="60%" height="60%" />;
+  return <SvgXml xml={logoSvg} width="80%" height="80%" />;
 };
 
 export default SvgComponent;
