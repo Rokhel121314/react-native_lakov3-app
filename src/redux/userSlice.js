@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { BASE_URL } from "@env";
 
@@ -11,7 +12,7 @@ export const login = createAsyncThunk("user/login", async (loginData) => {
     const response = await Axios.post(`${BASE_URL}/users/login`, loginData, {
       withCredentials: true,
     });
-
+    await AsyncStorage.setItem("user", JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     const { status } = error.response.data;
@@ -25,7 +26,8 @@ export const logout = createAsyncThunk("user/logout", async () => {
     await Axios.get(`${BASE_URL}/users/logout`, {
       withCredentials: true,
     });
-    console.log("logout");
+    await AsyncStorage.clear();
+    return true;
   } catch (error) {
     console.log("error", error);
   }

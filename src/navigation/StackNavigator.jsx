@@ -7,7 +7,6 @@ import AddProductScreen from "../screens/stack-screen/AddProductScreen";
 import UpdateProductScreen from "../screens/stack-screen/UpdateProductScreen";
 import ViewProductScreen from "../screens/stack-screen/ViewProductScreen";
 import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen";
-import SplashScreen from "../screens/stack-screen/SplashScreen";
 
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
