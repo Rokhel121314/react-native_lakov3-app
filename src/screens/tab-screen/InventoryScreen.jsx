@@ -10,11 +10,13 @@ import React from "react";
 import { styled } from "nativewind";
 import { logout } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
+import { useAsyncStorage } from "../../hooks/useAsyncStorage";
 
 const StyledText = styled(Text);
 
 const InventoryScreen = ({ navigation }) => {
   const dispatch = useDispatch();
+  const { removeUserInfo } = useAsyncStorage();
   return (
     <SafeAreaView className="w-full bg-pink-200 flex-1 mb-[70]">
       <StatusBar />
@@ -28,7 +30,10 @@ const InventoryScreen = ({ navigation }) => {
       <Button
         title="LOG OUT"
         color={"red"}
-        onPress={() => dispatch(logout())}
+        onPress={() => {
+          dispatch(logout());
+          removeUserInfo();
+        }}
       />
     </SafeAreaView>
   );
