@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +22,24 @@ const LoginScreen = ({ navigation }) => {
     user_name: "",
     user_password: "",
   });
+
+  useEffect(() => {
+    if (userData.user_id) {
+      navigation.navigate("bottom-tab");
+    } else if (!userData.user_id) {
+      navigation.navigate("login");
+    }
+  }, [userData.user_id, isLoading]);
+
+  if (isLoading) {
+    return (
+      <ActivityIndicator
+        size={"large"}
+        color={"#fff"}
+        style={{ flex: 1, backgroundColor: "#344c57" }}
+      />
+    );
+  }
 
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
