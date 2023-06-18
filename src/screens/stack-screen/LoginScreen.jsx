@@ -13,6 +13,12 @@ import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/userSlice";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+import { ANDROID_CLIENT_ID } from "@env";
+import { EXPO_CLIENT_ID } from "@env";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const { userData, isLoading } = useSelector((state) => state.user);
@@ -40,6 +46,45 @@ const LoginScreen = ({ navigation }) => {
       />
     );
   }
+
+  // GOOGLE SIGN IN
+  console.log("client_id", ANDROID_CLIENT_ID);
+
+  const [token, setToken] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
+  console.log("userInfo", userInfo);
+
+  const [request, response, promptAsync] = Google.useAuthRequest(
+    {
+      androidClientId: ANDROID_CLIENT_ID,
+      expoClientId: EXPO_CLIENT_ID,
+    },
+    {
+      projectNameForProxy: "@jerickddelacruzwebdev/react-native-lakov3_app",
+    }
+  );
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      setToken(response.authentication.accessToken);
+      getUserInfo();
+    }
+  }, [response, token]);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const user = await response.json();
+      setUserInfo(user);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
@@ -77,7 +122,15 @@ const LoginScreen = ({ navigation }) => {
           <Text className="text-gray-50 my-10">OR</Text>
         </View>
 
-        <TouchableOpacity className="w-4/5">
+        <TouchableOpacity
+          className="w-4/5"
+          disabled={!request}
+          onPress={() => {
+            promptAsync({
+              projectNameForProxy:
+                "@jerickddelacruzwebdev/react-native-lakov3_app",
+            });
+          }}>
           <View className="flex-row items-center justify-center bg-gray-50 py-2 rounded-3xl">
             <AntDesign name="google" size={24} color="#344c57" />
             <Text className="px-2 font-bold text-lg text-blue-dianne">
