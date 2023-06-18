@@ -7,6 +7,7 @@ import AddProductScreen from "../screens/stack-screen/AddProductScreen";
 import UpdateProductScreen from "../screens/stack-screen/UpdateProductScreen";
 import ViewProductScreen from "../screens/stack-screen/ViewProductScreen";
 import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen";
+import SplashScreen from "../screens/stack-screen/SplashScreen";
 
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
@@ -17,12 +18,21 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="bottom-tab"
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="login" component={LoginScreen} />
-      <Stack.Screen name="register" component={RegisterScreen} />
+
       <Stack.Screen name="add-product" component={AddProductScreen} />
       <Stack.Screen name="update-product" component={UpdateProductScreen} />
       <Stack.Screen name="view-product" component={ViewProductScreen} />
