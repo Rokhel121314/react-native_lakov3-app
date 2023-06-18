@@ -13,10 +13,15 @@ import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/userSlice";
+import { useAsyncStorage } from "../../hooks/useAsyncStorage";
 
 const LoginScreen = ({ navigation }) => {
   const { userData, isLoading } = useSelector((state) => state.user);
-  console.log("userData", userData, "isLoading ", isLoading);
+
+  const { userInfo, getUserInfo } = useAsyncStorage();
+
+  console.log("userInfo", userInfo);
+
   const dispatch = useDispatch();
   const [loginData, setLoginData] = useState({
     user_name: "",
@@ -24,12 +29,16 @@ const LoginScreen = ({ navigation }) => {
   });
 
   useEffect(() => {
-    if (userData.user_id) {
+    getUserInfo();
+  }, [userData]);
+
+  useEffect(() => {
+    if (userInfo) {
       navigation.navigate("bottom-tab");
-    } else if (!userData.user_id) {
+    } else if (!userInfo) {
       navigation.navigate("login");
     }
-  }, [userData.user_id, isLoading]);
+  }, [userInfo, isLoading]);
 
   if (isLoading) {
     return (
@@ -67,7 +76,9 @@ const LoginScreen = ({ navigation }) => {
         />
         <TouchableOpacity
           className="mt-10 w-4/5"
-          onPress={() => dispatch(login(loginData))}>
+          onPress={() => {
+            dispatch(login(loginData));
+          }}>
           <Text className="bg-gray-50 py-2 text-center text-blue-dianne font-bold tracking-wide text-lg rounded-3xl">
             SIGN IN
           </Text>
