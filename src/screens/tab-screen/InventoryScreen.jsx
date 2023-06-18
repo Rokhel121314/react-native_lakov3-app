@@ -13,7 +13,7 @@ const StyledText = styled(Text);
 
 const InventoryScreen = ({ navigation }) => {
   return (
-    <SafeAreaView className="w-full bg-gray-200 flex-1">
+    <SafeAreaView className="w-full bg-pink-200 flex-1 mb-[70]">
       <StatusBar />
       <StyledText className="text-blue-dianne text-center pt-36">
         InventoryScreen
