@@ -14,6 +14,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        gestureEnable: false,
         headerShown: false,
         tabBarStyle: {
           // backgroundColor: "#344C57",

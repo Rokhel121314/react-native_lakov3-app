@@ -16,7 +16,7 @@ const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
       <Stack.Screen
         name="login"
         component={LoginScreen}
