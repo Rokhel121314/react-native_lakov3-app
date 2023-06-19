@@ -10,8 +10,11 @@ import {
 import React from "react";
 import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
+import useFirebaseAuth from "../../hooks/useFirebaseAuth";
 
-const LoginScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation }) => {
+  const { formData, setFormData, fireBaseSignin } = useFirebaseAuth();
+  console.log("formData", formData);
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
       <StatusBar backgroundColor={"#344c57"} />
@@ -22,25 +25,43 @@ const LoginScreen = ({ navigation }) => {
         <TextInput
           placeholder="FIRST NAME"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl"
+          value={formData.first_name}
+          onChangeText={(text) =>
+            setFormData({ ...formData, first_name: text })
+          }
         />
         <TextInput
           placeholder="LAST NAME"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl mt-5"
+          value={formData.last_name}
+          onChangeText={(text) => setFormData({ ...formData, last_name: text })}
         />
         <TextInput
           placeholder="STORE NAME"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl mt-5"
+          value={formData.store_name}
+          onChangeText={(text) =>
+            setFormData({ ...formData, store_name: text })
+          }
         />
         <TextInput
           placeholder="EMAIL"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl mt-5"
+          value={formData.user_name}
+          onChangeText={(text) => setFormData({ ...formData, user_name: text })}
         />
         <TextInput
           placeholder="PASSWORD"
           secureTextEntry={true}
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl mt-5"
+          value={formData.user_password}
+          onChangeText={(text) =>
+            setFormData({ ...formData, user_password: text })
+          }
         />
-        <TouchableOpacity className="mt-10 w-4/5">
+        <TouchableOpacity
+          className="mt-10 w-4/5"
+          onPress={() => fireBaseSignin()}>
           <Text className="bg-gray-50 py-2 text-center text-blue-dianne font-bold tracking-wide text-lg rounded-3xl">
             SIGN UP
           </Text>
@@ -80,4 +101,4 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
