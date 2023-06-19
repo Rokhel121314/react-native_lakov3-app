@@ -6,6 +6,16 @@ import { BASE_URL } from "@env";
 
 // EXTRA REDUCERS, ASYNTHUNKS
 
+// REGISTER USER
+export const register = createAsyncThunk("user/register", async (formData) => {
+  try {
+    const response = await Axios.post(`${BASE_URL}/users`, formData);
+    return response.data;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+});
+
 // LOGIN FUNCTION
 export const login = createAsyncThunk("user/login", async (loginData) => {
   try {
@@ -43,6 +53,13 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(register.pending, (state, { payload }) => {
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state, { payload }) => {
+        state.userData = payload;
+        state.isLoading = false;
+      })
       .addCase(login.pending, (state, { payload }) => {
         state.isLoading = true;
       })

@@ -33,14 +33,14 @@ const LoginScreen = ({ navigation }) => {
   }, [userData]);
 
   useEffect(() => {
-    if (userInfo) {
-      navigation.navigate("bottom-tab");
-    } else if (!userInfo) {
+    if (!userInfo) {
       navigation.navigate("login");
+    } else if (userInfo) {
+      navigation.navigate("bottom-tab");
     }
   }, [userInfo, isLoading]);
 
-  if (isLoading) {
+  if (isLoading && !userInfo) {
     return (
       <ActivityIndicator
         size={"large"}
@@ -58,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View className="flex-4 items-center">
         <TextInput
-          placeholder="EMAIL"
+          placeholder="EMAIL/USERNAME"
           className="bg-gray-50 w-4/5 py-2 px-5 rounded-3xl"
           value={loginData.user_name}
           onChangeText={(text) =>
