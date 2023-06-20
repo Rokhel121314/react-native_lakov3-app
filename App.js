@@ -1,9 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./src/navigation/StackNavigator";
-// import { store } from "./src/redux/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./src/redux/store_test";
+import store, { persistor } from "./src/redux/store";
 
 export default function App() {
   return (

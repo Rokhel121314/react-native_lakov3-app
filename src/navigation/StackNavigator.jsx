@@ -1,4 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useAsyncStorage } from "../hooks/useAsyncStorage";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { ActivityIndicator } from "react-native";
 
 // STACK SCREENS
 import LoginScreen from "../screens/stack-screen/LoginScreen";
@@ -14,6 +19,24 @@ import TabNavigator from "./TabNavigator";
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
+  const { userData, isLoading } = useSelector((state) => state.user);
+  const { userInfo, getUserInfo } = useAsyncStorage();
+  const { fireBaseAuthenticateUser } = useFirebaseAuth();
+
+  useEffect(() => {
+    getUserInfo();
+    fireBaseAuthenticateUser();
+  }, [userData]);
+
+  if (isLoading) {
+    return (
+      <ActivityIndicator
+        size={"large"}
+        color={"#fff"}
+        style={{ flex: 1, backgroundColor: "#344c57" }}
+      />
+    );
+  }
   return (
     <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
       <Stack.Screen

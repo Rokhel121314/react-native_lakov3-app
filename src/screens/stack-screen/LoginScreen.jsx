@@ -6,49 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   Pressable,
-  ActivityIndicator,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/userSlice";
-import { useAsyncStorage } from "../../hooks/useAsyncStorage";
+import useFirebaseAuth from "../../hooks/useFirebaseAuth";
 
 const LoginScreen = ({ navigation }) => {
-  const { userData, isLoading } = useSelector((state) => state.user);
-
-  const { userInfo, getUserInfo } = useAsyncStorage();
-
-  console.log("userInfo", userInfo);
-
-  const dispatch = useDispatch();
-  const [loginData, setLoginData] = useState({
-    user_name: "",
-    user_password: "",
-  });
-
-  useEffect(() => {
-    getUserInfo();
-  }, [userData]);
-
-  useEffect(() => {
-    if (!userInfo) {
-      navigation.navigate("login");
-    } else if (userInfo) {
-      navigation.navigate("bottom-tab");
-    }
-  }, [userInfo, isLoading]);
-
-  if (isLoading && !userInfo) {
-    return (
-      <ActivityIndicator
-        size={"large"}
-        color={"#fff"}
-        style={{ flex: 1, backgroundColor: "#344c57" }}
-      />
-    );
-  }
+  const { loginData, setLoginData, fireBaseLogin } = useFirebaseAuth();
 
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
@@ -77,7 +42,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity
           className="mt-10 w-4/5"
           onPress={() => {
-            dispatch(login(loginData));
+            fireBaseLogin();
           }}>
           <Text className="bg-gray-50 py-2 text-center text-blue-dianne font-bold tracking-wide text-lg rounded-3xl">
             SIGN IN
