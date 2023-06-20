@@ -13,7 +13,7 @@ import useFirebaseAuth from "../../hooks/useFirebaseAuth";
 
 const StyledText = styled(Text);
 
-const InventoryScreen = ({ navigation }) => {
+const StockScreen = ({ navigation }) => {
   const { removeUserInfo } = useAsyncStorage();
   const { fireBaseLogout } = useFirebaseAuth();
   return (
@@ -26,18 +26,10 @@ const InventoryScreen = ({ navigation }) => {
         title="add product"
         onPress={() => navigation.navigate("add-product")}
       />
-      <Button
-        title="LOG OUT"
-        color={"red"}
-        onPress={() => {
-          fireBaseLogout();
-          removeUserInfo();
-        }}
-      />
     </SafeAreaView>
   );
 };
 
-export default InventoryScreen;
+export default StockScreen;
 
 const styles = StyleSheet.create({});

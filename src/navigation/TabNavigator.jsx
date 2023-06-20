@@ -1,10 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // TAB SCREENS
-import InventoryScreen from "../screens/tab-screen/InventoryScreen";
+import StockScreen from "../screens/tab-screen/StockScreen";
 import PosScreen from "../screens/tab-screen/PosScreen";
 import TransactionsScreen from "../screens/tab-screen/TransactionsScreen";
 import SalesScreen from "../screens/tab-screen/SalesScreen";
+import UserScreen from "../screens/tab-screen/UserScreen";
 
 import TabBarIcon from "../components/TabBarIcon";
 
@@ -24,8 +25,8 @@ const TabNavigator = () => {
         tabBarShowLabel: false,
       }}>
       <Tab.Screen
-        name="inventory"
-        component={InventoryScreen}
+        name="stocks"
+        component={StockScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
@@ -63,7 +64,7 @@ const TabNavigator = () => {
               iconSize={30}
               iconName={"exchange"}
               vectorIcon={"fontawesome"}
-              iconText={"TRANSACTIONS"}
+              iconText={"TRNSCTN"}
             />
           ),
         }}
@@ -79,6 +80,21 @@ const TabNavigator = () => {
               iconName={"graph"}
               vectorIcon={"simplelineicon"}
               iconText={"SALES"}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="user"
+        component={UserScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon
+              focused={focused}
+              iconSize={30}
+              iconName={"user"}
+              vectorIcon={"fontawesome"}
+              iconText={"USER"}
             />
           ),
         }}
