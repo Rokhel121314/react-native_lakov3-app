@@ -1,10 +1,8 @@
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 
 export const useAsyncStorage = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const navigation = useNavigation();
 
   const getUserInfo = async () => {
     try {
