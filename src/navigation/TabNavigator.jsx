@@ -8,17 +8,30 @@ import SalesScreen from "../screens/tab-screen/SalesScreen";
 import UserScreen from "../screens/tab-screen/UserScreen";
 
 import TabBarIcon from "../components/TabBarIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAllProduct } from "../redux/productSlice";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const dispatch = useDispatch();
+
+  const { userData } = useSelector((state) => state.user);
+  const { allProductData } = useSelector((state) => state.product);
+
+  // console.log("userID", userData?.user_id);
+  // console.log("allProduct", allProductData);
+
+  useEffect(() => {
+    dispatch(getAllProduct(userData.user_id));
+  }, [userData]);
   return (
     <Tab.Navigator
       screenOptions={{
         gestureEnable: false,
         headerShown: false,
         tabBarStyle: {
-          // backgroundColor: "#344C57",
           position: "absolute",
           height: 70,
         },
