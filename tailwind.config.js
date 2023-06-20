@@ -15,6 +15,9 @@ module.exports = {
         4: "4 4 0%",
         5: "5 5 0%",
       },
+      borderColor: {
+        "blue-dianne": "#344C57",
+      },
     },
   },
   plugins: [],

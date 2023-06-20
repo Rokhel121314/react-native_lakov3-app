@@ -40,6 +40,17 @@ export const productSlice = createSlice({
     unGetAllProduct: (state) => {
       state.allProductData = [];
     },
+    searchFilter: (state, { payload }) => {
+      if (payload === "") {
+        state.filteredProductData = state.allProductData;
+      } else {
+        state.filteredProductData = state.allProductData.filter((product) => {
+          return product.product_name
+            .toLowerCase()
+            .includes(payload.toLowerCase());
+        });
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -54,5 +65,5 @@ export const productSlice = createSlice({
   },
 });
 
-export const { unGetAllProduct } = productSlice.actions;
+export const { unGetAllProduct, searchFilter } = productSlice.actions;
 export default productSlice.reducer;
