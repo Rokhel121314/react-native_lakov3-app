@@ -13,8 +13,8 @@ import { AntDesign } from "@expo/vector-icons";
 import useFirebaseAuth from "../../hooks/useFirebaseAuth";
 
 const RegisterScreen = ({ navigation }) => {
-  const { formData, setFormData, fireBaseSignin } = useFirebaseAuth();
-  console.log("formData", formData);
+  const { formData, setFormData, fireBaseRegister } = useFirebaseAuth();
+  // console.log("formData", formData);
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
       <StatusBar backgroundColor={"#344c57"} />
@@ -61,7 +61,7 @@ const RegisterScreen = ({ navigation }) => {
         />
         <TouchableOpacity
           className="mt-10 w-4/5"
-          onPress={() => fireBaseSignin()}>
+          onPress={() => fireBaseRegister()}>
           <Text className="bg-gray-50 py-2 text-center text-blue-dianne font-bold tracking-wide text-lg rounded-3xl">
             SIGN UP
           </Text>
