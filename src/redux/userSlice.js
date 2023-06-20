@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { BASE_URL } from "@env";
 
-// EXTRA REDUCERS, ASYNTHUNKS
+// EXTRA REDUCERS, ASYNCTHUNKS
 
 // REGISTER USER
 export const register = createAsyncThunk("user/register", async (formData) => {

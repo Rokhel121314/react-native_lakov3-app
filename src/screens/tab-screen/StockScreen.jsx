@@ -2,31 +2,38 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   SafeAreaView,
   StatusBar,
+  FlatList,
 } from "react-native";
 import React from "react";
-import { styled } from "nativewind";
-import { useAsyncStorage } from "../../hooks/useAsyncStorage";
-import useFirebaseAuth from "../../hooks/useFirebaseAuth";
-
-const StyledText = styled(Text);
+import { useSelector } from "react-redux";
+import ProductItem from "../../components/ProductItem";
 
 const StockScreen = ({ navigation }) => {
-  const { removeUserInfo } = useAsyncStorage();
-  const { fireBaseLogout } = useFirebaseAuth();
+  const { filteredProductData } = useSelector((state) => state.product);
+
+  // console.log("filteredProductData", filteredProductData);
   return (
-    <SafeAreaView className="w-full bg-pink-200 flex-1 mb-[70]">
+    <>
       <StatusBar />
-      <StyledText className="text-blue-dianne text-center pt-36">
-        InventoryScreen
-      </StyledText>
-      <Button
-        title="add product"
-        onPress={() => navigation.navigate("add-product")}
-      />
-    </SafeAreaView>
+      <SafeAreaView className="w-full bg-gray-50 flex-1 mb-[70]">
+        <View className="bg-green-200 h-16">
+          <Text>SEARCH</Text>
+        </View>
+        <View className=" flex-1 items-center justify-center">
+          <FlatList
+            data={filteredProductData}
+            renderItem={({ item }) => (
+              <ProductItem item={item} navigation={navigation} />
+            )}
+            keyExtractor={(item) => item._id}
+            numColumns={3}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
