@@ -87,7 +87,7 @@ const useFirebaseAuth = () => {
     onAuthStateChanged(authentication, (user) => {
       if (user) {
         const uid = user.uid;
-        console.log(`user ${uid} is signed in!`);
+        console.log(`user ${uid} is signed in Firebase!`);
         navigation.navigate("bottom-tab");
       } else {
         navigation.navigate("login");
