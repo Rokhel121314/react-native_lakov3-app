@@ -76,7 +76,7 @@ const StackNavigator = ({ navigation }) => {
           header: ({ navigation, route, options, back }) => {
             return (
               <StackNavHeader
-                title={route.params.item.product_name}
+                item={route.params.item}
                 back={back}
                 navigation={navigation}
                 options={options}

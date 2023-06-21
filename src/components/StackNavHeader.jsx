@@ -2,7 +2,7 @@ import { TouchableOpacity, View, Text } from "react-native";
 import React from "react";
 import BackButton from "./BackButton";
 
-const StackNavHeader = ({ title, back, navigation, options }) => {
+const StackNavHeader = ({ item, back, navigation, options }) => {
   return (
     <View className="h-16 bg-gray-100 flex-row justify-between items-center">
       {back ? <BackButton navigation={navigation} /> : null}
