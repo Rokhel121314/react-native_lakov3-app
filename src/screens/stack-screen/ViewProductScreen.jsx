@@ -30,7 +30,7 @@ const ViewProductScreen = () => {
         </View>
 
         {/* DETAILS */}
-        <View className="flex-3 flex-row">
+        <View className="flex-3 flex-row px-5">
           <View className="flex-1  justify-around items-start">
             <View>
               <Text className="text-sm text-gray-500 font-bold">
@@ -49,7 +49,7 @@ const ViewProductScreen = () => {
           </View>
 
           <View className="flex-1  justify-around items-end">
-            <View>
+            <View className="w-9/12">
               <Text className="text-sm text-gray-500 font-bold">
                 SELLING PRICE
               </Text>
@@ -57,9 +57,11 @@ const ViewProductScreen = () => {
                 2
               )}`}</Text>
             </View>
-            <View className="w-7/12">
+            <View className="w-9/12">
               <Text className="text-sm text-gray-500 font-bold">TYPE</Text>
-              <Text className="text-xl text-gray-950 font-bold">
+              <Text
+                className="text-xl text-gray-950 font-bold"
+                numberOfLines={1}>
                 {item.product_type}
               </Text>
             </View>
@@ -69,7 +71,7 @@ const ViewProductScreen = () => {
       </View>
 
       {/* SALES DETAILS */}
-      <View className="flex-2  flex-row mb-10">
+      <View className="flex-2  flex-row mb-10 px-5">
         <View className="flex-1  justify-around items-start">
           <View>
             <Text className="text-sm text-gray-500 font-bold">GROSS SALES</Text>
@@ -96,7 +98,7 @@ const ViewProductScreen = () => {
         </View>
 
         <View className="flex-1  justify-around items-end">
-          <View className="w-7/12">
+          <View className="w-9/12">
             <Text className="text-sm text-gray-500 font-bold">SOLD</Text>
             <Text className="text-xl text-gray-950 font-bold">{`${item.product_quantity.toFixed(
               2
@@ -107,7 +109,7 @@ const ViewProductScreen = () => {
               </Text>
             </View>
           </View>
-          <View className="w-7/12">
+          <View className="w-9/12">
             <Text className="text-sm text-gray-500 font-bold">TYPE</Text>
             <Text className="text-xl text-gray-950 font-bold">
               {item.product_type}
