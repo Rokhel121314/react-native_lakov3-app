@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator } from "react-native";
 import { getAllProduct, unGetAllProduct } from "../redux/productSlice";
+import { getHeaderTitle } from "@react-navigation/elements";
 
 // STACK SCREENS
 import LoginScreen from "../screens/stack-screen/LoginScreen";
@@ -16,6 +17,8 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
+import StackNavHeader from "../components/StackNavHeader";
+import BackButton from "../components/BackButton";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,9 +69,21 @@ const StackNavigator = ({ navigation }) => {
       <Stack.Screen
         name="view-product"
         component={ViewProductScreen}
-        options={({ route }) => ({
-          title: route.params.item.product_name.toUpperCase(),
-        })}
+        // options={({ route }) => ({
+        //   title: route.params.item.product_name.toUpperCase(),
+        // })}
+        options={{
+          header: ({ navigation, route, options, back }) => {
+            return (
+              <StackNavHeader
+                title={route.params.item.product_name}
+                back={back}
+                navigation={navigation}
+                options={options}
+              />
+            );
+          },
+        }}
       />
       <Stack.Screen name="view-transaction" component={ViewTransactionScreen} />
     </Stack.Navigator>
