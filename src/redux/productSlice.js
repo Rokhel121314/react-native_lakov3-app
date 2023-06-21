@@ -11,13 +11,14 @@ export const getAllProduct = createAsyncThunk(
   "product/getAllProduct",
   async (user_id) => {
     try {
-      if (!user_id) {
-        console.log("user_id undefine");
+      if (user_id === undefined) {
+        console.log("fetching user_id");
+      } else {
+        const response = await Axios.get(`${BASE_URL}/products/${user_id}`, {
+          withCredentials: true,
+        });
+        return response.data;
       }
-      const response = await Axios.get(`${BASE_URL}/products/${user_id}`, {
-        withCredentials: true,
-      });
-      return response.data;
     } catch (error) {
       console.log("error", error);
       console.log("userid", user_id);
@@ -51,6 +52,15 @@ export const productSlice = createSlice({
         });
       }
     },
+    typeFilter: (state, { payload }) => {
+      if (payload === "all") {
+        state.filteredProductData = state.allProductData;
+      } else {
+        state.filteredProductData = state.allProductData.filter(
+          (product) => product.product_type === payload
+        );
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -65,5 +75,6 @@ export const productSlice = createSlice({
   },
 });
 
-export const { unGetAllProduct, searchFilter } = productSlice.actions;
+export const { unGetAllProduct, searchFilter, typeFilter } =
+  productSlice.actions;
 export default productSlice.reducer;
