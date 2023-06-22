@@ -18,19 +18,15 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
 import StackNavHeader from "../components/StackNavHeader";
-import BackButton from "../components/BackButton";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = ({ navigation }) => {
   const { userData, isLoading } = useSelector((state) => state.user);
-  // const { allProductData } = useSelector((state) => state.product);
   const { userInfo, getUserInfo } = useAsyncStorage();
   const { fireBaseAuthenticateUser } = useFirebaseAuth();
 
   const dispatch = useDispatch();
-  // console.log("userID", userData?.user_id);
-  // console.log("allProduct", allProductData);
 
   useEffect(() => {
     getUserInfo();
@@ -65,13 +61,9 @@ const StackNavigator = ({ navigation }) => {
       />
 
       <Stack.Screen name="add-product" component={AddProductScreen} />
-      <Stack.Screen name="update-product" component={UpdateProductScreen} />
       <Stack.Screen
-        name="view-product"
-        component={ViewProductScreen}
-        // options={({ route }) => ({
-        //   title: route.params.item.product_name.toUpperCase(),
-        // })}
+        name="update-product"
+        component={UpdateProductScreen}
         options={{
           header: ({ navigation, route, options, back }) => {
             return (
@@ -80,6 +72,29 @@ const StackNavigator = ({ navigation }) => {
                 back={back}
                 navigation={navigation}
                 options={options}
+                title={`UPDATE PRODUCT`}
+                editButton={false}
+                deleteButton={false}
+                saveButton={false}
+              />
+            );
+          },
+        }}
+      />
+      <Stack.Screen
+        name="view-product"
+        component={ViewProductScreen}
+        options={{
+          header: ({ navigation, route, options, back }) => {
+            return (
+              <StackNavHeader
+                item={route.params.item}
+                back={back}
+                navigation={navigation}
+                options={options}
+                editButton={true}
+                deleteButton={true}
+                saveButton={false}
               />
             );
           },
