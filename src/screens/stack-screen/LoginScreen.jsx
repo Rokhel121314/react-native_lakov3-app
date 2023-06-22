@@ -29,6 +29,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeText={(text) =>
             setLoginData({ ...loginData, user_name: text })
           }
+          inputMode="email"
         />
         <TextInput
           placeholder="PASSWORD"
