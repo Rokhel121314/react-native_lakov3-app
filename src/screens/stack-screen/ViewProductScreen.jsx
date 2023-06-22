@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import { useRoute } from "@react-navigation/native";
+import PropertyValueItem from "../../components/PropertyValueItem";
+import PropertyValuePercentItem from "../../components/PropertyValuePercentItem";
 
 const ViewProductScreen = () => {
   const route = useRoute();
@@ -32,39 +34,49 @@ const ViewProductScreen = () => {
         {/* DETAILS */}
         <View className="flex-3 flex-row px-5">
           <View className="flex-1  justify-around items-start">
-            <View>
-              <Text className="text-sm text-gray-500 font-bold">
-                ORIGINAL PRICE
-              </Text>
-              <Text className="text-xl text-gray-950 font-bold">{`$ ${item.original_price.toFixed(
-                2
-              )}`}</Text>
-            </View>
-            <View>
-              <Text className="text-sm text-gray-500 font-bold">QUANTITY</Text>
-              <Text className="text-xl text-gray-950 font-bold">{`${item.product_quantity.toFixed(
-                2
-              )} pcs`}</Text>
-            </View>
+            <PropertyValueItem
+              description={"ORIGINAL PRICE"}
+              textStyle1={"text-sm text-gray-500 font-bold"}
+              textStyle2={"text-xl text-gray-950 font-bold"}
+              viewStyle={null}
+              value={item.original_price.toFixed(2)}
+              prefixUnit={"$"}
+              suffixUnit={null}
+              numberOfLines={1}
+            />
+            <PropertyValueItem
+              description={"QUANTITY"}
+              textStyle1={"text-sm text-gray-500 font-bold"}
+              textStyle2={"text-xl text-gray-950 font-bold"}
+              viewStyle={null}
+              value={item.product_quantity.toFixed(2)}
+              prefixUnit={null}
+              suffixUnit={"pcs"}
+              numberOfLines={1}
+            />
           </View>
 
           <View className="flex-1  justify-around items-end">
-            <View className="w-9/12">
-              <Text className="text-sm text-gray-500 font-bold">
-                SELLING PRICE
-              </Text>
-              <Text className="text-xl text-gray-950 font-bold">{`$ ${item.selling_price.toFixed(
-                2
-              )}`}</Text>
-            </View>
-            <View className="w-9/12">
-              <Text className="text-sm text-gray-500 font-bold">TYPE</Text>
-              <Text
-                className="text-xl text-gray-950 font-bold"
-                numberOfLines={1}>
-                {item.product_type}
-              </Text>
-            </View>
+            <PropertyValueItem
+              description={"SELLING PRICE"}
+              viewStyle={"w-9/12"}
+              textStyle1={"text-sm text-gray-500 font-bold"}
+              textStyle2={"text-xl text-gray-950 font-bold"}
+              value={item.selling_price.toFixed(2)}
+              prefixUnit={"$"}
+              suffixUnit={null}
+              numberOfLines={1}
+            />
+            <PropertyValueItem
+              description={"TYPE"}
+              viewStyle={"w-9/12"}
+              textStyle1={"text-sm text-gray-500 font-bold"}
+              textStyle2={"text-xl text-gray-950 font-bold"}
+              value={item.product_type}
+              prefixUnit={null}
+              suffixUnit={null}
+              numberOfLines={1}
+            />
           </View>
         </View>
         {/* END OF PRODUCT DETAIL */}
@@ -73,48 +85,67 @@ const ViewProductScreen = () => {
       {/* SALES DETAILS */}
       <View className="flex-2  flex-row mb-10 px-5">
         <View className="flex-1  justify-around items-start">
-          <View>
-            <Text className="text-sm text-gray-500 font-bold">GROSS SALES</Text>
-            <Text className="text-xl text-gray-950 font-bold">{`$ ${item.original_price.toFixed(
-              2
-            )}`}</Text>
-            <View className="items-start ">
-              <Text className="bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs">
-                1.56%
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Text className="text-sm text-gray-500 font-bold">NET SALES</Text>
-            <Text className="text-xl text-gray-950 font-bold">{`$ ${item.selling_price.toFixed(
-              2
-            )}`}</Text>
-            <View className="items-start ">
-              <Text className="bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs">
-                1.56%
-              </Text>
-            </View>
-          </View>
+          <PropertyValuePercentItem
+            viewStyle1={null}
+            viewStyle2={"items-start"}
+            textStyle1={"text-sm text-gray-500 font-bold"}
+            textStyle2={"text-xl text-gray-950 font-bold"}
+            textStyle3={
+              "bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs"
+            }
+            description={"GROSS SALES"}
+            prefixUnit={"$"}
+            suffixUnit={null}
+            value={item.original_price.toFixed(2)}
+            percentValue={`${1.56} %`}
+          />
+
+          <PropertyValuePercentItem
+            viewStyle1={null}
+            viewStyle2={"items-start"}
+            textStyle1={"text-sm text-gray-500 font-bold"}
+            textStyle2={"text-xl text-gray-950 font-bold"}
+            textStyle3={
+              "bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs"
+            }
+            description={"NET SALES"}
+            prefixUnit={"$"}
+            suffixUnit={null}
+            value={item.selling_price.toFixed(2)}
+            percentValue={`${1.56} %`}
+          />
         </View>
 
         <View className="flex-1  justify-around items-end">
-          <View className="w-9/12">
-            <Text className="text-sm text-gray-500 font-bold">SOLD</Text>
-            <Text className="text-xl text-gray-950 font-bold">{`${item.product_quantity.toFixed(
-              2
-            )} pcs`}</Text>
-            <View className="items-start ">
-              <Text className="bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs">
-                1.56%
-              </Text>
-            </View>
-          </View>
-          <View className="w-9/12">
-            <Text className="text-sm text-gray-500 font-bold">TYPE</Text>
-            <Text className="text-xl text-gray-950 font-bold">
-              {item.product_type}
-            </Text>
-          </View>
+          <PropertyValuePercentItem
+            viewStyle1={"w-9/12"}
+            viewStyle2={"items-start"}
+            textStyle1={"text-sm text-gray-500 font-bold"}
+            textStyle2={"text-xl text-gray-950 font-bold"}
+            textStyle3={
+              "bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs"
+            }
+            description={"SOLD"}
+            prefixUnit={null}
+            suffixUnit={"pcs"}
+            value={item.selling_price.toFixed(2)}
+            percentValue={`${1.56} %`}
+          />
+
+          <PropertyValuePercentItem
+            viewStyle1={"w-9/12"}
+            viewStyle2={"items-start"}
+            textStyle1={"text-sm text-gray-500 font-bold"}
+            textStyle2={"text-xl text-gray-950 font-bold"}
+            textStyle3={
+              "bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs"
+            }
+            description={"SOLD"}
+            prefixUnit={null}
+            suffixUnit={"pcs"}
+            value={item.selling_price.toFixed(2)}
+            percentValue={`${1.56} %`}
+          />
         </View>
       </View>
     </View>
