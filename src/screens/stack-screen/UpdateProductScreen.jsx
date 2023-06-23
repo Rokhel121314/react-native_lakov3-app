@@ -6,10 +6,10 @@ import {
   KeyboardAvoidingView,
   Pressable,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 import React, { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import EditPropertyValueItem from "../../components/EditPropertyValueItem";
 import useUpdateProduct from "../../hooks/useUpdateProduct";
 
@@ -28,6 +28,7 @@ const UpdateProductScreen = ({ navigation }) => {
     newFormData,
     productDetail,
     isSavingProduct,
+    productImageChange,
   } = useUpdateProduct();
 
   return (
@@ -56,14 +57,41 @@ const UpdateProductScreen = ({ navigation }) => {
         </View>
 
         {/* IMAGE */}
-        <View className="flex-3 items-center justify-center">
-          <Image
-            source={{ uri: productDetail.product_image.secure_url }}
-            width={200}
-            height={200}
-            resizeMode="contain"
-          />
-        </View>
+        {!newFormData.product_image.secure_url ? (
+          <TouchableOpacity
+            className="flex-3 items-center justify-center"
+            onPress={productImageChange}>
+            <MaterialCommunityIcons
+              name="image-edit-outline"
+              size={20}
+              color="gray"
+              style={{ position: "absolute", top: 30, left: "70%", zIndex: 1 }}
+            />
+            <Image
+              source={{ uri: newFormData.product_image }}
+              width={200}
+              height={200}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            className="flex-3 items-center justify-center relative"
+            onPress={productImageChange}>
+            <MaterialCommunityIcons
+              name="image-edit-outline"
+              size={20}
+              color="gray"
+              style={{ position: "absolute", top: 30, left: "70%", zIndex: 1 }}
+            />
+            <Image
+              source={{ uri: productDetail.product_image.secure_url }}
+              width={200}
+              height={200}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        )}
 
         {/* DETAILS */}
         <View className="flex-3 flex-row px-5">

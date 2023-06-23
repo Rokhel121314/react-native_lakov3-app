@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProduct } from "../redux/productSlice";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 
 const useUpdateProduct = () => {
   const { userData } = useSelector((state) => state.user);
@@ -75,6 +76,21 @@ const useUpdateProduct = () => {
     setNewFormData({ ...newFormData, product_type: text });
   };
 
+  const productImageChange = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+      base64: true,
+    });
+    if (!result.canceled) {
+      const uploadedImage = result.assets[0].base64;
+      const image = "data:image/jpeg;base64," + uploadedImage;
+      setNewFormData({ ...newFormData, product_image: image });
+    }
+  };
+
   const dispatch = useDispatch();
 
   const handleUpdateProduct = (e) => {
@@ -101,6 +117,7 @@ const useUpdateProduct = () => {
     newFormData,
     productDetail,
     isSavingProduct,
+    productImageChange,
   };
 };
 
