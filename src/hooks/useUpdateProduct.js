@@ -30,7 +30,7 @@ const useUpdateProduct = () => {
     original_price: parseInt(newFormData.original_price),
     selling_price: parseInt(newFormData.selling_price),
     product_quantity: parseInt(newFormData.product_quantity),
-    product_type: productDetail.product_type,
+    product_type: newFormData.product_type,
   };
 
   const updatedData = {
