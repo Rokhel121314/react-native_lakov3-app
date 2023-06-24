@@ -11,18 +11,26 @@ import TabBarIcon from "../components/TabBarIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllProduct } from "../redux/productSlice";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const TabNavigator = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const { userData } = useSelector((state) => state.user);
-  const { productDetail } = useSelector((state) => state.product);
+  const { productDetail, productData } = useSelector((state) => state.product);
+  const { uid, fireBaseAuthenticateUser } = useFirebaseAuth();
 
   useEffect(() => {
-    dispatch(getAllProduct(userData.user_id));
-  }, [userData, productDetail]);
+    fireBaseAuthenticateUser().then(() => {
+      if (uid === null) {
+        navigation.navigate("login");
+      } else if (uid !== null) {
+        dispatch(getAllProduct(userData.user_id));
+      }
+    });
+  }, [userData, productDetail, productData]);
   return (
     <Tab.Navigator
       screenOptions={{
