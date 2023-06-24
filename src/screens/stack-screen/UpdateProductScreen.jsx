@@ -1,72 +1,36 @@
 import {
-  StyleSheet,
   Text,
   View,
   Image,
   TextInput,
   KeyboardAvoidingView,
   Pressable,
-  Button,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
-import { useRoute } from "@react-navigation/native";
-import PropertyValueItem from "../../components/PropertyValueItem";
+import React, { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import EditPropertyValueItem from "../../components/EditPropertyValueItem";
+import useUpdateProduct from "../../hooks/useUpdateProduct";
 
-const UpdateProductScreen = () => {
-  const route = useRoute();
-  const { item } = route.params;
+const UpdateProductScreen = ({ navigation }) => {
+  const {
+    handleUpdateProduct,
+    productTypeChange,
+    productQuantityChange,
+    sellingPriceChange,
+    originalPriceChange,
+    productNameChange,
+    focus,
+    blur,
+    editing,
+    textInputStyle,
+    newFormData,
+    productDetail,
+    isSavingProduct,
+    productImageChange,
+  } = useUpdateProduct();
 
-  const productName =
-    item.product_name.charAt(0).toUpperCase() + item.product_name.slice(1);
-  const [newFormData, setNewFormData] = useState({
-    product_name: productName,
-    product_image: item.product_image.secure_url,
-    original_price: item.original_price,
-    selling_price: item.selling_price,
-    product_quantity: item.product_quantity,
-    product_type: item.product_type,
-  });
-
-  const onFocusStyle =
-    "text-4xl font-bold  w-full bg-gray-200 rounded-md border border-gray-400";
-  const onBlurStyle = "text-4xl font-bold bg-gray-100 mr-2";
-  const [editing, setEditing] = useState(false);
-  const [textInputStyle, setTextInputStyle] = useState(onBlurStyle);
-
-  const blur = () => {
-    setTextInputStyle(onBlurStyle);
-    setEditing(false);
-  };
-
-  const focus = () => {
-    setTextInputStyle(onFocusStyle);
-    setEditing(true);
-  };
-
-  const productNameChange = (text) => {
-    setNewFormData({ ...newFormData, product_name: text });
-  };
-
-  const originalPriceChange = (text) => {
-    setNewFormData({ ...newFormData, original_price: text });
-  };
-
-  const sellingPriceChange = (text) => {
-    setNewFormData({ ...newFormData, selling_price: text });
-  };
-
-  const productQuantityChange = (text) => {
-    setNewFormData({ ...newFormData, product_quantity: text });
-  };
-
-  const productTypeChange = (text) => {
-    setNewFormData({ ...newFormData, product_type: text });
-  };
-
-  console.log("newFormData", newFormData);
   return (
     <KeyboardAvoidingView className="flex-1 px-8">
       {/* PRODUCT DETAILS */}
@@ -88,19 +52,46 @@ const UpdateProductScreen = () => {
             )}
           </View>
 
-          <Text className="text-sm text-gray-500">{`ID: ${item._id}`}</Text>
+          <Text className="text-sm text-gray-500">{`ID: ${productDetail._id}`}</Text>
           <Text className="text-sm text-gray-500">{`STOCK: ${newFormData.product_quantity}`}</Text>
         </View>
 
         {/* IMAGE */}
-        <View className="flex-3 items-center justify-center">
-          <Image
-            source={{ uri: item.product_image.secure_url }}
-            width={200}
-            height={200}
-            resizeMode="contain"
-          />
-        </View>
+        {!newFormData.product_image.secure_url ? (
+          <TouchableOpacity
+            className="flex-3 items-center justify-center"
+            onPress={productImageChange}>
+            <MaterialCommunityIcons
+              name="image-edit-outline"
+              size={20}
+              color="gray"
+              style={{ position: "absolute", top: 30, left: "70%", zIndex: 1 }}
+            />
+            <Image
+              source={{ uri: newFormData.product_image }}
+              width={200}
+              height={200}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            className="flex-3 items-center justify-center relative"
+            onPress={productImageChange}>
+            <MaterialCommunityIcons
+              name="image-edit-outline"
+              size={20}
+              color="gray"
+              style={{ position: "absolute", top: 30, left: "70%", zIndex: 1 }}
+            />
+            <Image
+              source={{ uri: productDetail.product_image.secure_url }}
+              width={200}
+              height={200}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        )}
 
         {/* DETAILS */}
         <View className="flex-3 flex-row px-5">
@@ -160,9 +151,12 @@ const UpdateProductScreen = () => {
           </View>
         </View>
       </View>
-      <TouchableOpacity className="mb-10 items-center bg-blue-dianne">
+      <TouchableOpacity
+        disabled={isSavingProduct ? true : false}
+        className="mb-10 items-center bg-blue-dianne"
+        onPress={handleUpdateProduct}>
         <Text className="py-3 text-gray-50 font-bold text-md">
-          SAVE CHANGES
+          {isSavingProduct ? "UPDATING..." : "SAVE CHANGES"}
         </Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
