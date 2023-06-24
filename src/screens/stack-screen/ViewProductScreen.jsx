@@ -3,13 +3,13 @@ import React from "react";
 import { useRoute } from "@react-navigation/native";
 import PropertyValueItem from "../../components/PropertyValueItem";
 import PropertyValuePercentItem from "../../components/PropertyValuePercentItem";
+import { useSelector } from "react-redux";
 
 const ViewProductScreen = () => {
-  const route = useRoute();
-  const { item } = route.params;
-
+  const { productDetail } = useSelector((state) => state.product);
   const productName =
-    item.product_name.charAt(0).toUpperCase() + item.product_name.slice(1);
+    productDetail.product_name.charAt(0).toUpperCase() +
+    productDetail.product_name.slice(1);
   return (
     <View className="flex-1 px-8">
       {/* PRODUCT DETAILS */}
@@ -17,14 +17,14 @@ const ViewProductScreen = () => {
         {/* HEADER */}
         <View className="flex-2 justify-center">
           <Text className="text-4xl font-bold">{productName}</Text>
-          <Text className="text-sm text-gray-500">{`ID: ${item._id}`}</Text>
-          <Text className="text-sm text-gray-500">{`STOCK: ${item.product_quantity}`}</Text>
+          <Text className="text-sm text-gray-500">{`ID: ${productDetail._id}`}</Text>
+          <Text className="text-sm text-gray-500">{`STOCK: ${productDetail.product_quantity}`}</Text>
         </View>
 
         {/* IMAGE */}
         <View className="flex-4 items-center justify-center">
           <Image
-            source={{ uri: item.product_image.secure_url }}
+            source={{ uri: productDetail.product_image.secure_url }}
             width={200}
             height={200}
             resizeMode="contain"
@@ -39,7 +39,7 @@ const ViewProductScreen = () => {
               textStyle1={"text-sm text-gray-500 font-bold"}
               textStyle2={"text-xl text-gray-950 font-bold"}
               viewStyle={null}
-              value={item.original_price.toFixed(2)}
+              value={productDetail.original_price.toFixed(2)}
               prefixUnit={"$"}
               suffixUnit={null}
               numberOfLines={1}
@@ -49,7 +49,7 @@ const ViewProductScreen = () => {
               textStyle1={"text-sm text-gray-500 font-bold"}
               textStyle2={"text-xl text-gray-950 font-bold"}
               viewStyle={null}
-              value={item.product_quantity.toFixed(2)}
+              value={productDetail.product_quantity.toFixed(2)}
               prefixUnit={null}
               suffixUnit={"pcs"}
               numberOfLines={1}
@@ -62,7 +62,7 @@ const ViewProductScreen = () => {
               viewStyle={"w-9/12"}
               textStyle1={"text-sm text-gray-500 font-bold"}
               textStyle2={"text-xl text-gray-950 font-bold"}
-              value={item.selling_price.toFixed(2)}
+              value={productDetail.selling_price.toFixed(2)}
               prefixUnit={"$"}
               suffixUnit={null}
               numberOfLines={1}
@@ -72,7 +72,7 @@ const ViewProductScreen = () => {
               viewStyle={"w-9/12"}
               textStyle1={"text-sm text-gray-500 font-bold"}
               textStyle2={"text-xl text-gray-950 font-bold"}
-              value={item.product_type}
+              value={productDetail.product_type}
               prefixUnit={null}
               suffixUnit={null}
               numberOfLines={1}
@@ -96,7 +96,7 @@ const ViewProductScreen = () => {
             description={"GROSS SALES"}
             prefixUnit={"$"}
             suffixUnit={null}
-            value={item.original_price.toFixed(2)}
+            value={productDetail.original_price.toFixed(2)}
             percentValue={`${1.56} %`}
           />
 
@@ -111,7 +111,7 @@ const ViewProductScreen = () => {
             description={"NET SALES"}
             prefixUnit={"$"}
             suffixUnit={null}
-            value={item.selling_price.toFixed(2)}
+            value={productDetail.selling_price.toFixed(2)}
             percentValue={`${1.56} %`}
           />
         </View>
@@ -128,7 +128,7 @@ const ViewProductScreen = () => {
             description={"SOLD"}
             prefixUnit={null}
             suffixUnit={"pcs"}
-            value={item.selling_price.toFixed(2)}
+            value={productDetail.selling_price.toFixed(2)}
             percentValue={`${1.56} %`}
           />
 
@@ -143,7 +143,7 @@ const ViewProductScreen = () => {
             description={"SOLD"}
             prefixUnit={null}
             suffixUnit={"pcs"}
-            value={item.selling_price.toFixed(2)}
+            value={productDetail.selling_price.toFixed(2)}
             percentValue={`${1.56} %`}
           />
         </View>

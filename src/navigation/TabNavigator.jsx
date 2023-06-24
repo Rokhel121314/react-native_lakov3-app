@@ -18,14 +18,11 @@ const TabNavigator = () => {
   const dispatch = useDispatch();
 
   const { userData } = useSelector((state) => state.user);
-  const { allProductData } = useSelector((state) => state.product);
-
-  // console.log("userID", userData?.user_id);
-  // console.log("allProduct", allProductData);
+  const { productDetail } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getAllProduct(userData.user_id));
-  }, [userData]);
+  }, [userData, productDetail]);
   return (
     <Tab.Navigator
       screenOptions={{

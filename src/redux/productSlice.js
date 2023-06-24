@@ -20,8 +20,29 @@ export const getAllProduct = createAsyncThunk(
         return response.data;
       }
     } catch (error) {
-      console.log("error", error);
-      console.log("userid", user_id);
+      console.log("getAllProduct", error);
+      console.log("getAllproductError", user_id);
+    }
+  }
+);
+
+// UPDATE PRODUCT
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async (updatedData) => {
+    const { user_id, product_id, formData } = updatedData;
+    try {
+      const response = await Axios.put(
+        `${BASE_URL}/products/${user_id}/${product_id}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("updateProductError", error);
     }
   }
 );
@@ -38,6 +59,9 @@ export const productSlice = createSlice({
     isSavingProduct: false,
   },
   reducers: {
+    getProductDetail: (state, { payload }) => {
+      state.productDetail = payload;
+    },
     unGetAllProduct: (state) => {
       state.allProductData = [];
     },
@@ -71,10 +95,18 @@ export const productSlice = createSlice({
         state.allProductData = payload;
         state.filteredProductData = payload;
         state.isLoadingProduct = false;
+      })
+      .addCase(updateProduct.pending, (state, { payload }) => {
+        state.isSavingProduct = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, { payload }) => {
+        state.productDetail = payload;
+        state.productData = payload;
+        state.isSavingProduct = false;
       });
   },
 });
 
-export const { unGetAllProduct, searchFilter, typeFilter } =
+export const { unGetAllProduct, searchFilter, typeFilter, getProductDetail } =
   productSlice.actions;
 export default productSlice.reducer;
