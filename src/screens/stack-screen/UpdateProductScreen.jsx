@@ -16,11 +16,6 @@ import useUpdateProduct from "../../hooks/useUpdateProduct";
 const UpdateProductScreen = ({ navigation }) => {
   const {
     handleUpdateProduct,
-    productTypeChange,
-    productQuantityChange,
-    sellingPriceChange,
-    originalPriceChange,
-    productNameChange,
     focus,
     blur,
     editing,
@@ -29,6 +24,7 @@ const UpdateProductScreen = ({ navigation }) => {
     productDetail,
     isSavingProduct,
     productImageChange,
+    handleInputChange,
   } = useUpdateProduct();
 
   return (
@@ -43,7 +39,7 @@ const UpdateProductScreen = ({ navigation }) => {
               className={textInputStyle}
               onBlur={blur}
               onFocus={focus}
-              onChangeText={productNameChange}
+              onChangeText={(text) => handleInputChange("product_name", text)}
             />
             {editing ? null : (
               <Pressable onPress={focus}>
@@ -105,7 +101,9 @@ const UpdateProductScreen = ({ navigation }) => {
               suffixUnit={null}
               numberOfLines={1}
               value={newFormData.original_price.toString()}
-              setNewFormData={originalPriceChange}
+              property={"original_price"}
+              handleInputChange={handleInputChange}
+              formData={newFormData}
               inputMode={"numeric"}
             />
 
@@ -118,7 +116,9 @@ const UpdateProductScreen = ({ navigation }) => {
               suffixUnit={" pcs"}
               numberOfLines={1}
               value={newFormData.product_quantity.toString()}
-              setNewFormData={productQuantityChange}
+              property={"product_quantity"}
+              handleInputChange={handleInputChange}
+              formData={newFormData}
               inputMode={"numeric"}
             />
           </View>
@@ -133,7 +133,9 @@ const UpdateProductScreen = ({ navigation }) => {
               suffixUnit={null}
               numberOfLines={1}
               value={newFormData.selling_price?.toString()}
-              setNewFormData={sellingPriceChange}
+              property={"selling_price"}
+              handleInputChange={handleInputChange}
+              formData={newFormData}
               inputMode={"numeric"}
             />
             <EditPropertyValueItem
@@ -145,7 +147,9 @@ const UpdateProductScreen = ({ navigation }) => {
               suffixUnit={null}
               numberOfLines={2}
               value={newFormData.product_type}
-              setNewFormData={productTypeChange}
+              handleInputChange={handleInputChange}
+              property={"product_type"}
+              formData={newFormData}
               inputMode={"text"}
             />
           </View>

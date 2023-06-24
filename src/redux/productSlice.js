@@ -5,6 +5,25 @@ import Axios from "axios";
 import { BASE_URL } from "@env";
 
 // EXTRA REDUCERS, ASYNCTHUNKS
+// ADD PRODUCT
+export const addProduct = createAsyncThunk(
+  "product/addProduct",
+  async (dispatchData) => {
+    const { formData, user_id } = dispatchData;
+    try {
+      const response = await Axios.post(
+        `${BASE_URL}/products/${user_id}`,
+        formData,
+        { withCredentials: true }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+      console.log("error", error.msg);
+    }
+  }
+);
 
 // READ ALL PRODUCTS
 export const getAllProduct = createAsyncThunk(
@@ -102,6 +121,17 @@ export const productSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, { payload }) => {
         state.productDetail = payload;
         state.productData = payload;
+        state.isSavingProduct = false;
+      })
+      .addCase(addProduct.pending, (state, { payload }) => {
+        state.isSavingProduct = true;
+      })
+      .addCase(addProduct.fulfilled, (state, { payload }) => {
+        state.productData = payload;
+        state.productDetail = payload;
+        state.isSavingProduct = false;
+      })
+      .addCase(addProduct.rejected, (state, { payload }) => {
         state.isSavingProduct = false;
       });
   },

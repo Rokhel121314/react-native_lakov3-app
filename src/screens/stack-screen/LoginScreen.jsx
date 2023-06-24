@@ -7,13 +7,29 @@ import {
   TouchableOpacity,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import SvgComponent from "../../components/SvgComponent";
 import { AntDesign } from "@expo/vector-icons";
 import useFirebaseAuth from "../../hooks/useFirebaseAuth";
 
 const LoginScreen = ({ navigation }) => {
-  const { loginData, setLoginData, fireBaseLogin } = useFirebaseAuth();
+  const {
+    loginData,
+    setLoginData,
+    fireBaseLogin,
+    fireBaseAuthenticateUser,
+    uid,
+  } = useFirebaseAuth();
+
+  useEffect(() => {
+    fireBaseAuthenticateUser().then(() => {
+      if (uid) {
+        navigation.navigate("bottom-tab");
+      } else if (!uid) {
+        console.log("user not signed in");
+      }
+    });
+  }, [uid]);
 
   return (
     <KeyboardAvoidingView className="flex-1 bg-blue-dianne">
