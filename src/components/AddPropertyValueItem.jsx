@@ -1,23 +1,23 @@
 import { View, Text, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
-import { Feather } from "@expo/vector-icons";
 
-const EditPropertyValueItem = ({
+const AddPropertyValueItem = ({
   description,
   textStyle1,
   textStyle2,
   viewStyle,
-  value,
   inputMode,
   prefixUnit,
   suffixUnit,
-  handleInputChange,
   property,
+  handleInputChange,
+  formData,
 }) => {
   const [editing, setEditing] = useState(false);
   const focusStyle =
     "text-xl text-gray-950 font-bold mr-2 bg-gray-200 rounded-md border border-gray-400 w-full text-center";
-  const blurStyle = "text-xl text-gray-950 font-bold mr-2";
+  const blurStyle =
+    "text-xl text-gray-950 font-bold mr-2 bg-gray-200 rounded-md border border-gray-400 w-full text-center";
   return (
     <View className={viewStyle}>
       <Text className={textStyle1}>{description}</Text>
@@ -26,7 +26,7 @@ const EditPropertyValueItem = ({
           <Text className={textStyle2}>{prefixUnit}</Text>
         ) : null}
         <TextInput
-          value={value}
+          value={formData[property]}
           className={editing ? focusStyle : blurStyle}
           onChangeText={(text) => handleInputChange(property, text)}
           onFocus={() => setEditing(true)}
@@ -37,14 +37,9 @@ const EditPropertyValueItem = ({
         {suffixUnit && !editing ? (
           <Text className={textStyle2}>{suffixUnit}</Text>
         ) : null}
-        {editing ? null : (
-          <Pressable onPress={() => setEditing(true)}>
-            <Feather name="edit" size={16} color="gray" />
-          </Pressable>
-        )}
       </View>
     </View>
   );
 };
 
-export default EditPropertyValueItem;
+export default AddPropertyValueItem;
