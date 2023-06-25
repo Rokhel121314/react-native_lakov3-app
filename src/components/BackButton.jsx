@@ -6,7 +6,7 @@ const BackButton = ({ navigation }) => {
   return (
     <TouchableOpacity
       className="ml-3 items-center justify-center rounded-md"
-      onPress={navigation.goBack}>
+      onPress={() => navigation.navigate("stocks")}>
       <Ionicons
         name="arrow-back"
         size={37}

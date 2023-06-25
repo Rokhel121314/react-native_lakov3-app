@@ -33,6 +33,7 @@ const UpdateProductScreen = ({ navigation }) => {
 
   return (
     <>
+      {/* CONFIRMATION MODAL BEFORE SAVING CHANGES */}
       <ConfirmationModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -41,10 +42,12 @@ const UpdateProductScreen = ({ navigation }) => {
         confirmBtnText={"CONFIRM"}
         cancelBtnText={"CANCEL"}
       />
+
+      {/* MAIN CONTAINER */}
       <KeyboardAvoidingView className="flex-1 px-8">
         {/* PRODUCT DETAILS */}
         <View className="flex-1">
-          {/* HEADER */}
+          {/* PRODUCT NAME */}
           <View className="flex-2 justify-center">
             <View className="flex-row">
               <TextInput
@@ -65,51 +68,47 @@ const UpdateProductScreen = ({ navigation }) => {
             <Text className="text-sm text-gray-500">{`STOCK: ${newFormData.product_quantity}`}</Text>
           </View>
 
-          {/* IMAGE */}
+          {/* PRODUCT IMAGE */}
           {!newFormData.product_image.secure_url ? (
-            <TouchableOpacity
-              className="flex-3 items-center justify-center"
-              onPress={productImageChange}>
-              <MaterialCommunityIcons
-                name="image-edit-outline"
-                size={20}
-                color="gray"
-                style={{
-                  position: "absolute",
-                  top: 30,
-                  left: "70%",
-                  zIndex: 1,
-                }}
-              />
-              <Image
-                source={{ uri: newFormData.product_image }}
-                width={200}
-                height={200}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
+            <View className="flex-3 items-center justify-center">
+              <View className="h-[190px] w-[190px] relative">
+                <Pressable
+                  className="absolute z-10 right-2 top-2 p-1 bg-gray-500 rounded-md shadow-lg"
+                  onPress={productImageChange}>
+                  <MaterialCommunityIcons
+                    name="image-edit-outline"
+                    size={20}
+                    color="#fff"
+                  />
+                </Pressable>
+                <Image
+                  source={{ uri: newFormData.product_image }}
+                  width={190}
+                  height={190}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
           ) : (
-            <TouchableOpacity
-              className="flex-3 items-center justify-center relative"
-              onPress={productImageChange}>
-              <MaterialCommunityIcons
-                name="image-edit-outline"
-                size={20}
-                color="gray"
-                style={{
-                  position: "absolute",
-                  top: 30,
-                  left: "70%",
-                  zIndex: 1,
-                }}
-              />
-              <Image
-                source={{ uri: productDetail.product_image.secure_url }}
-                width={200}
-                height={200}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
+            <View className="flex-3 items-center justify-center">
+              <View className="h-[190px] w-[190px] relative">
+                <Pressable
+                  className="absolute z-10 right-2 top-2 p-1 bg-gray-500 rounded-md shadow-lg"
+                  onPress={productImageChange}>
+                  <MaterialCommunityIcons
+                    name="image-edit-outline"
+                    size={20}
+                    color="#fff"
+                  />
+                </Pressable>
+                <Image
+                  source={{ uri: productDetail.product_image.secure_url }}
+                  width={190}
+                  height={190}
+                  resizeMode="contain"
+                />
+              </View>
+            </View>
           )}
 
           {/* DETAILS */}
@@ -181,7 +180,7 @@ const UpdateProductScreen = ({ navigation }) => {
         <TouchableOpacity
           disabled={isSavingProduct ? true : false}
           onPress={() => setModalVisible(true)}
-          className="mb-10 items-center bg-blue-dianne">
+          className="mb-5 items-center bg-blue-dianne">
           <Text className="py-3 text-gray-50 font-bold text-md">
             SAVE CHANGES
           </Text>
