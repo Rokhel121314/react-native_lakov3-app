@@ -24,6 +24,9 @@ const useFirebaseAuth = () => {
     user_password: "",
   });
 
+  const [uid, setUid] = useState();
+  // console.log("uid", uid);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -83,15 +86,27 @@ const useFirebaseAuth = () => {
   };
 
   // VERIFY USER STATE FIREBASE EMAIL/PASSWORD AUTHENTICATION
+  // const fireBaseAuthenticateUser = async () => {
+  //   onAuthStateChanged(authentication, (user) => {
+  //     if (user) {
+  //       const uid = user.uid;
+  //       console.log(`user ${uid} is signed in Firebase!`);
+  //       navigation.navigate("bottom-tab");
+  //     } else {
+  //       navigation.navigate("login");
+  //       console.log("user not signed in");
+  //     }
+  //   });
+  // };
+
   const fireBaseAuthenticateUser = async () => {
     onAuthStateChanged(authentication, (user) => {
       if (user) {
-        const uid = user.uid;
-        console.log(`user ${uid} is signed in Firebase!`);
-        navigation.navigate("bottom-tab");
+        const uid = user?.uid;
+        setUid(uid);
+        console.log("user is signed in!");
       } else {
-        navigation.navigate("login");
-        console.log("user not signed in");
+        console.log("user not signed in!");
       }
     });
   };
@@ -105,6 +120,7 @@ const useFirebaseAuth = () => {
     setLoginData,
     fireBaseLogout,
     fireBaseAuthenticateUser,
+    uid,
   };
 };
 

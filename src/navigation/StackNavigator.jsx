@@ -18,20 +18,27 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
 import StackNavHeader from "../components/StackNavHeader";
+import StackNavHeader2 from "../components/StackNavHeader2";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = ({ navigation }) => {
   const { userData, isLoading } = useSelector((state) => state.user);
   const { userInfo, getUserInfo } = useAsyncStorage();
-  const { fireBaseAuthenticateUser } = useFirebaseAuth();
+  const { fireBaseAuthenticateUser, uid } = useFirebaseAuth();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getUserInfo();
-    fireBaseAuthenticateUser();
-  }, [userData]);
+    fireBaseAuthenticateUser().then(() => {
+      if (uid === null) {
+        navigation.navigate("login");
+      }
+      if (uid !== null) {
+        getUserInfo();
+      }
+    });
+  }, [uid]);
 
   if (isLoading) {
     return (
@@ -60,14 +67,32 @@ const StackNavigator = ({ navigation }) => {
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen name="add-product" component={AddProductScreen} />
+      <Stack.Screen
+        name="add-product"
+        component={AddProductScreen}
+        options={{
+          header: ({ navigation, route, options, back }) => {
+            return (
+              <StackNavHeader2
+                back={back}
+                navigation={navigation}
+                options={options}
+                title={`ADD PRODUCT`}
+                editButton={false}
+                deleteButton={false}
+                saveButton={false}
+              />
+            );
+          },
+        }}
+      />
       <Stack.Screen
         name="update-product"
         component={UpdateProductScreen}
         options={{
           header: ({ navigation, route, options, back }) => {
             return (
-              <StackNavHeader
+              <StackNavHeader2
                 item={route.params.item}
                 back={back}
                 navigation={navigation}

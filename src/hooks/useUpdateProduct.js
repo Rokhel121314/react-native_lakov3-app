@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProduct } from "../redux/productSlice";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 
 const useUpdateProduct = () => {
+  //
   const { userData } = useSelector((state) => state.user);
   const { productDetail, isSavingProduct } = useSelector(
     (state) => state.product
@@ -13,9 +14,12 @@ const useUpdateProduct = () => {
 
   console.log("isSavingProduct", isSavingProduct);
 
+  // CAPITALIZING FIRST LETTER OF PRODUCT NAME
   const productName =
     productDetail.product_name.charAt(0).toUpperCase() +
     productDetail.product_name.slice(1);
+
+  // NEW INPUT DATA
   const [newFormData, setNewFormData] = useState({
     product_name: productName,
     product_image: productDetail.product_image,
@@ -25,21 +29,24 @@ const useUpdateProduct = () => {
     product_type: productDetail.product_type,
   });
 
+  // CONVERTING DATA THAT SHOULD BE NUMBER
   const formData = {
     product_name: newFormData.product_name,
     product_image: newFormData.product_image,
-    original_price: parseInt(newFormData.original_price),
-    selling_price: parseInt(newFormData.selling_price),
-    product_quantity: parseInt(newFormData.product_quantity),
+    original_price: parseFloat(newFormData.original_price),
+    selling_price: parseFloat(newFormData.selling_price),
+    product_quantity: parseFloat(newFormData.product_quantity),
     product_type: newFormData.product_type,
   };
 
+  //   RTK ASYNCTHUNK PARAMETER
   const updatedData = {
     user_id: userData.user_id,
     product_id: productDetail._id,
     formData,
   };
 
+  // INPUT STYLE ON FOCUS & BLUR
   const onFocusStyle =
     "text-4xl font-bold  w-full bg-gray-200 rounded-md border border-gray-400";
   const onBlurStyle = "text-4xl font-bold bg-gray-100 mr-2";
@@ -56,26 +63,12 @@ const useUpdateProduct = () => {
     setEditing(true);
   };
 
-  const productNameChange = (text) => {
-    setNewFormData({ ...newFormData, product_name: text });
+  // HANDLE INPUT CHANGE
+  const handleInputChange = (name, value) => {
+    setNewFormData({ ...newFormData, [name]: value });
   };
 
-  const originalPriceChange = (text) => {
-    setNewFormData({ ...newFormData, original_price: text });
-  };
-
-  const sellingPriceChange = (text) => {
-    setNewFormData({ ...newFormData, selling_price: text });
-  };
-
-  const productQuantityChange = (text) => {
-    setNewFormData({ ...newFormData, product_quantity: text });
-  };
-
-  const productTypeChange = (text) => {
-    setNewFormData({ ...newFormData, product_type: text });
-  };
-
+  //    UPLOADING IMAGE
   const productImageChange = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -93,23 +86,14 @@ const useUpdateProduct = () => {
 
   const dispatch = useDispatch();
 
-  const handleUpdateProduct = (e) => {
+  const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    dispatch(updateProduct(updatedData));
-    setTimeout(() => {
-      navigation.navigate("view-product", { item: productDetail });
-    }, 1);
+    await dispatch(updateProduct(updatedData));
+    navigation.navigate("view-product", { item: productDetail });
   };
-
-  const handleRedirect = () => {};
 
   return {
     handleUpdateProduct,
-    productTypeChange,
-    productQuantityChange,
-    sellingPriceChange,
-    originalPriceChange,
-    productNameChange,
     focus,
     blur,
     editing,
@@ -118,6 +102,7 @@ const useUpdateProduct = () => {
     productDetail,
     isSavingProduct,
     productImageChange,
+    handleInputChange,
   };
 };
 
