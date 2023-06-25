@@ -66,6 +66,24 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+// DELETE PRODUCT
+
+export const deleteProduct = createAsyncThunk(
+  "product/deleteProduct",
+  async (productUserId) => {
+    const { user_id, product_id } = productUserId;
+    try {
+      const response = await Axios.delete(
+        `${BASE_URL}/products/${user_id}/${product_id}`,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error", error.msg);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -123,6 +141,9 @@ export const productSlice = createSlice({
         state.productData = payload;
         state.isSavingProduct = false;
       })
+      .addCase(updateProduct.rejected, (state, { payload }) => {
+        state.isSavingProduct = false;
+      })
       .addCase(addProduct.pending, (state, { payload }) => {
         state.isSavingProduct = true;
       })
@@ -132,6 +153,16 @@ export const productSlice = createSlice({
         state.isSavingProduct = false;
       })
       .addCase(addProduct.rejected, (state, { payload }) => {
+        state.isSavingProduct = false;
+      })
+      .addCase(deleteProduct.pending, (state, { payload }) => {
+        state.isSavingProduct = true;
+      })
+      .addCase(deleteProduct.fulfilled, (state, { payload }) => {
+        state.productData = payload;
+        state.isSavingProduct = false;
+      })
+      .addCase(deleteProduct.rejected, (state, { payload }) => {
         state.isSavingProduct = false;
       });
   },
