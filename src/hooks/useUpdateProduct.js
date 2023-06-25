@@ -29,6 +29,8 @@ const useUpdateProduct = () => {
     product_type: productDetail.product_type,
   });
 
+  // console.log("updatedFormdata", newFormData);
+
   // CONVERTING DATA THAT SHOULD BE NUMBER
   const formData = {
     product_name: newFormData.product_name,
