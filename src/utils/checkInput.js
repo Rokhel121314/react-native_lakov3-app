@@ -23,6 +23,6 @@ export const checkInputs = (newFormData, setModalVisible) => {
     alert("product type required!");
     return;
   }
-  console.log("data", newFormData);
+  // console.log("data", newFormData);
   setModalVisible(true);
 };
