@@ -19,6 +19,7 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 import TabNavigator from "./TabNavigator";
 import StackNavHeader from "../components/StackNavHeader";
 import StackNavHeader2 from "../components/StackNavHeader2";
+import ModalScreen from "../screens/stack-screen/ModalScreen";
 
 const Stack = createNativeStackNavigator();
 

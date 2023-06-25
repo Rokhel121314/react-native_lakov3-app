@@ -8,6 +8,7 @@ module.exports = {
       },
       backgroundColor: {
         "blue-dianne": "#344C57",
+        "blue-dianne-blur": "rgba(20, 30, 34, .8)",
       },
       flex: {
         2: "2 2 0%",
