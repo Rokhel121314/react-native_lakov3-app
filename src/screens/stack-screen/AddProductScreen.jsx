@@ -20,16 +20,20 @@ const AddProductScreen = ({ navigation }) => {
     useAddProduct();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   return (
     <>
       <ConfirmationModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        handleConfirmAction={handleAddProduct}
+        handleConfirmAction={() => handleAddProduct(setIsSaved)}
         confirmationMessage={"Do you want to add this product"}
         confirmBtnText={"CONFIRM"}
         cancelBtnText={"CANCEL"}
+        isSaved={isSaved}
+        productDetail={newFormData}
+        successMessage={"IS ADDED SUCCESSFULLY!"}
       />
       <KeyboardAvoidingView className="flex-1 px-8 relative">
         {/* PRODUCT DETAILS */}

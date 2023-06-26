@@ -88,10 +88,13 @@ const useUpdateProduct = () => {
 
   const dispatch = useDispatch();
 
-  const handleUpdateProduct = async (e) => {
-    e.preventDefault();
+  const handleUpdateProduct = async (setIsSaved) => {
     await dispatch(updateProduct(updatedData));
-    navigation.navigate("view-product", { item: productDetail });
+    setIsSaved(true);
+    setTimeout(() => {
+      navigation.navigate("view-product", { item: productDetail });
+      setIsSaved(false);
+    }, 3000);
   };
 
   return {
