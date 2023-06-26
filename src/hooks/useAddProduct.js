@@ -60,10 +60,15 @@ const useAddProduct = () => {
 
   //   SAVING PRODUCT TO DATA BASE
 
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
+  const handleAddProduct = async (setIsSaved) => {
     await dispatch(addProduct(dispatchData));
-    navigation.navigate("view-product", { item: productDetail });
+    setIsSaved(true);
+    setTimeout(async () => {
+      await navigation.navigate("view-product", { item: productDetail });
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 1000);
+    }, 3000);
   };
 
   return {

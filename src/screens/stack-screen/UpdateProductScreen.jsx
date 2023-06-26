@@ -30,6 +30,7 @@ const UpdateProductScreen = ({ navigation }) => {
   } = useUpdateProduct();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   return (
     <>
@@ -37,10 +38,13 @@ const UpdateProductScreen = ({ navigation }) => {
       <ConfirmationModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        handleConfirmAction={handleUpdateProduct}
-        confirmationMessage={"Do you want to save changes on this product"}
+        handleConfirmAction={() => handleUpdateProduct(setIsSaved)}
+        confirmationMessage={"Do you want to save changes on"}
         confirmBtnText={"CONFIRM"}
         cancelBtnText={"CANCEL"}
+        isSaved={isSaved}
+        productDetail={productDetail}
+        successMessage={"IS UPDATED SUCCESSFULLY!"}
       />
 
       {/* MAIN CONTAINER */}

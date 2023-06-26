@@ -22,21 +22,30 @@ const StackNavHeader = ({
     product_id: item._id,
   };
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
   const handleDelete = async () => {
     await dispatch(deleteProduct(productUserId));
-    navigation.navigate("stocks");
+    setIsSaved(true);
+    setTimeout(() => {
+      navigation.navigate("stocks");
+      setIsSaved(false);
+    }, 3000);
   };
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <>
       <ConfirmationModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        handleConfirmAction={handleDelete}
-        confirmationMessage={"Do you want to delete this product?"}
+        handleConfirmAction={() => handleDelete()}
+        confirmationMessage={"Do you want to delete "}
         confirmBtnText={"CONFIRM"}
         cancelBtnText={"CANCEL"}
+        isSaved={isSaved}
+        productDetail={item}
+        successMessage={"HAS BEEN DELETED SUCCESSFULLY!"}
       />
       <View className="h-16 bg-gray-100 flex-row justify-between items-center">
         {back ? <BackButton navigation={navigation} /> : null}
