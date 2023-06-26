@@ -4,7 +4,6 @@ import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ActivityIndicator } from "react-native";
-import { getAllProduct, unGetAllProduct } from "../redux/productSlice";
 import { getHeaderTitle } from "@react-navigation/elements";
 
 // STACK SCREENS
@@ -19,13 +18,12 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 import TabNavigator from "./TabNavigator";
 import StackNavHeader from "../components/StackNavHeader";
 import StackNavHeader2 from "../components/StackNavHeader2";
-import ModalScreen from "../screens/stack-screen/ModalScreen";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = ({ navigation }) => {
-  const { userData, isLoading } = useSelector((state) => state.user);
-  const { userInfo, getUserInfo } = useAsyncStorage();
+  const { isLoading } = useSelector((state) => state.user);
+  const { getUserInfo } = useAsyncStorage();
   const { fireBaseAuthenticateUser, uid } = useFirebaseAuth();
 
   const dispatch = useDispatch();
