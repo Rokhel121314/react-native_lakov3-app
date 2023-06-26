@@ -4,6 +4,7 @@ import useFirebaseAuth from "../hooks/useFirebaseAuth";
 import { useAsyncStorage } from "../hooks/useAsyncStorage";
 import { useDispatch } from "react-redux";
 import { unGetAllProduct } from "../redux/productSlice";
+import { removeTransactionList } from "../redux/transactionSlice";
 
 const LogoutButton = () => {
   const { fireBaseLogout, fireBaseAuthenticateUser, uid } = useFirebaseAuth();
@@ -19,7 +20,10 @@ const LogoutButton = () => {
       className="bg-blue-dianne"
       onPress={() => {
         fireBaseLogout().then(() =>
-          removeUserInfo().then(() => dispatch(unGetAllProduct()))
+          removeUserInfo().then(() => {
+            dispatch(unGetAllProduct());
+            dispatch(removeTransactionList());
+          })
         );
       }}>
       <Text className="px-5 py-2">Log out</Text>
