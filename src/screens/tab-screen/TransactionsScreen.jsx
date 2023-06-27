@@ -48,7 +48,6 @@ const TransactionsScreen = ({ navigation }) => {
           <FlatList
             data={filteredTransactionList}
             initialNumToRender={11}
-            inverted={true}
             renderItem={({ index, item }) => (
               <TransactionItem
                 item={item}

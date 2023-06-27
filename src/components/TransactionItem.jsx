@@ -2,10 +2,10 @@ import { View, Text, TouchableOpacity } from "react-native";
 import moment from "moment";
 import React from "react";
 
-const TransactionItem = ({ index, item, length }) => {
+const TransactionItem = ({ index, item, length, navigation }) => {
   const transactionDate = moment(item.createdAt).format("MM/DD/yyyy");
 
-  const listNumber = length - index;
+  const listNumber = 1 + index++;
 
   const even = index % 2 === 0;
 
@@ -13,7 +13,9 @@ const TransactionItem = ({ index, item, length }) => {
 
   const evenStyle = "flex-row justify-around w-full  px-2 py-5 bg-gray-300";
   return (
-    <TouchableOpacity className={!even ? evenStyle : oddStyle}>
+    <TouchableOpacity
+      className={!even ? evenStyle : oddStyle}
+      onPress={() => navigation.navigate("view-transaction", { item: item })}>
       <View className="w-1/12 justify-center items-center">
         <Text className="text-md text-blue-dianne font-semibold">
           {listNumber}
@@ -23,7 +25,7 @@ const TransactionItem = ({ index, item, length }) => {
         <Text
           className="text-md text-blue-dianne font-semibold"
           numberOfLines={1}>
-          {item._id}
+          {item._id}.
         </Text>
       </View>
       <View className="w-1/12 justify-center items-center">

@@ -45,7 +45,7 @@ const ConfirmationModal = (props) => {
                 <Text
                   className="text-blue-dianne text-lg font-bold text-center"
                   numberOfLines={2}>
-                  {`${confirmationMessage} ${productDetail?.product_name.toUpperCase()} ?`}
+                  {`${confirmationMessage} ${productDetail?.product_name?.toUpperCase()} ?`}
                 </Text>
                 <View className="flex-row justify-around w-full mt-10">
                   <TouchableOpacity
