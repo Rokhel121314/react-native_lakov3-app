@@ -119,12 +119,32 @@ const StackNavigator = ({ navigation }) => {
                 editButton={true}
                 deleteButton={true}
                 saveButton={false}
+                backDestination={"stocks"}
               />
             );
           },
         }}
       />
-      <Stack.Screen name="view-transaction" component={ViewTransactionScreen} />
+      <Stack.Screen
+        name="view-transaction"
+        component={ViewTransactionScreen}
+        options={{
+          header: ({ navigation, route, options, back }) => {
+            return (
+              <StackNavHeader
+                item={route.params.item}
+                back={back}
+                navigation={navigation}
+                options={options}
+                editButton={null}
+                deleteButton={null}
+                saveButton={false}
+                backDestination={"transaction"}
+              />
+            );
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };

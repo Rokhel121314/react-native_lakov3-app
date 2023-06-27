@@ -9,7 +9,7 @@ const StackNavHeader = ({
   item,
   back,
   navigation,
-  options,
+  backDestination,
   editButton,
   deleteButton,
   saveButton,
@@ -48,7 +48,12 @@ const StackNavHeader = ({
         successMessage={"HAS BEEN DELETED SUCCESSFULLY!"}
       />
       <View className="h-16 bg-gray-100 flex-row justify-between items-center">
-        {back ? <BackButton navigation={navigation} /> : null}
+        {back ? (
+          <BackButton
+            navigation={navigation}
+            backDestination={backDestination}
+          />
+        ) : null}
         {title ? (
           <Text className="text-2xl font-bold text-blue-dianne place-self-center">
             {title}
