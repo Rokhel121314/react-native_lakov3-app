@@ -33,23 +33,13 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// const store = configureStore({
-//   reducer: persistedReducer,
-//   middleware: getDefaultMiddleware({
-//     serializableCheck: {
-//       ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-//     },
-//     immutableCheck: {warnAfter: 128}
-//   }),
-// });
-
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      immutableCheck: { warnAfter: 128 },
+      immutableCheck: { warnAfter: 1000 },
       serializableCheck: {
-        warnAfter: 128,
+        warnAfter: 1000,
         ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),

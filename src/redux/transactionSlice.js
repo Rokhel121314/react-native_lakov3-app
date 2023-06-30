@@ -46,6 +46,41 @@ export const transactionSlice = createSlice({
       );
       state.transactionDetail = state.filteredTransactionList[0];
     },
+    sortBySoldQtyAsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.transaction_sold_quantity > b.transaction_sold_quantity ? -1 : 1
+      );
+    },
+
+    sortBySoldQtyDsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.transaction_sold_quantity > b.transaction_sold_quantity ? 1 : -1
+      );
+    },
+
+    sortBySoldAmountAsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.transaction_sold_amount > b.transaction_sold_amount ? -1 : 1
+      );
+    },
+
+    sortBySoldAmountDsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.transaction_sold_amount > b.transaction_sold_amount ? 1 : -1
+      );
+    },
+
+    sortBySoldDateAsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.createdAt > b.createdAt ? -1 : 1
+      );
+    },
+
+    sortBySoldDateDsc: (state, { payload }) => {
+      state.sortedTransaction = state.filteredTransactionList.sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : -1
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -62,5 +97,14 @@ export const transactionSlice = createSlice({
       });
   },
 });
-export const { removeTransactionList, searchFilter } = transactionSlice.actions;
+export const {
+  removeTransactionList,
+  searchFilter,
+  sortBySoldQtyAsc,
+  sortBySoldQtyDsc,
+  sortBySoldAmountAsc,
+  sortBySoldAmountDsc,
+  sortBySoldDateAsc,
+  sortBySoldDateDsc,
+} = transactionSlice.actions;
 export default transactionSlice.reducer;

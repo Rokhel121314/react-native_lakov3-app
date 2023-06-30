@@ -4,9 +4,8 @@ import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import SoldItem from "../../components/SoldItem";
 import ViewShot from "react-native-view-shot";
-import * as MediaLibrary from "expo-media-library";
-import { shareAsync } from "expo-sharing";
 import SaveImageConfirmationModal from "../../components/SaveImageConfirmationModal";
+import useReceipt from "../../hooks/useReceipt";
 
 const ViewTransactionScreen = ({ navigation }) => {
   const route = useRoute();
@@ -15,18 +14,11 @@ const ViewTransactionScreen = ({ navigation }) => {
   const [isSaved, setIsSaved] = useState(false);
   const viewRef = useRef();
   const { userData } = useSelector((state) => state.user);
+  const { saveImage, shareImage, reqMediaLibrabryPermission } = useReceipt();
 
   const { item } = route.params;
 
   const soldItems = item.transaction_sold_items;
-
-  // saving image to phone
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-
-  const reqMediaLibrabryPermission = async () => {
-    const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
-    setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
-  };
 
   const onCapture = useCallback((uri) => {
     setPhoto(uri);
@@ -36,24 +28,12 @@ const ViewTransactionScreen = ({ navigation }) => {
     reqMediaLibrabryPermission();
   }, []);
 
-  const saveImage = async () => {
-    try {
-      await MediaLibrary.saveToLibraryAsync(photo);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const shareImage = async () => {
-    await shareAsync(photo);
-  };
-
   return (
     <>
       <SaveImageConfirmationModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        handleConfirmAction={saveImage}
+        handleConfirmAction={() => saveImage(photo)}
         confirmationMessage={"SAVE RECEIPT TO YOUR DEVICE?"}
         confirmBtnText={"CONFIRM"}
         cancelBtnText={"CANCEL"}
@@ -134,14 +114,14 @@ const ViewTransactionScreen = ({ navigation }) => {
             className="border-2 border-blue-dianne items-center "
             onPress={() => setModalVisible(true)}>
             <Text className="py-3 text-blue-dianne text-base font-bold tracking-widest">
-              SAVE
+              STORE RECEIPT
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             className="bg-blue-dianne items-center mt-3"
-            onPress={shareImage}>
+            onPress={() => shareImage(photo)}>
             <Text className="py-3 text-gray-100 text-base font-bold tracking-widest">
-              SHARE
+              SHARE RECEIPT
             </Text>
           </TouchableOpacity>
         </View>
