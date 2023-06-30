@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
@@ -18,23 +18,37 @@ const SortButton = ({
   const { value, toggle } = useToggle();
   const [disabled, setDisabled] = useState(false);
 
+  const handleSortAscending = () => {
+    dispatch(sortAscending());
+    toggle();
+    toggleView1();
+    toggleView2();
+    toggleView3();
+    setDisabled(true);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
+  };
+
+  const handleSortDescending = () => {
+    dispatch(sortDescending());
+    toggle();
+    toggleView1();
+    toggleView2();
+    toggleView3();
+    setDisabled(true);
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
+  };
+
   return (
     <>
       {value ? (
         <TouchableOpacity
           disabled={disabled}
           className={style}
-          onPress={() => {
-            dispatch(sortAscending());
-            toggle();
-            toggleView1();
-            toggleView2();
-            toggleView3();
-            setDisabled(true);
-            setTimeout(() => {
-              setDisabled(false);
-            }, 4000);
-          }}>
+          onPress={handleSortAscending}>
           <Text className="text-md text-blue-dianne font-semibold mr-1">
             {sortName}
           </Text>
@@ -44,17 +58,7 @@ const SortButton = ({
         <TouchableOpacity
           disabled={disabled}
           className={style}
-          onPress={() => {
-            dispatch(sortDescending());
-            toggle();
-            toggleView1();
-            toggleView2();
-            toggleView3();
-            setDisabled(true);
-            setTimeout(() => {
-              setDisabled(false);
-            }, 4000);
-          }}>
+          onPress={handleSortDescending}>
           <Text className="text-md text-blue-dianne font-semibold mr-1">
             {sortName}
           </Text>
