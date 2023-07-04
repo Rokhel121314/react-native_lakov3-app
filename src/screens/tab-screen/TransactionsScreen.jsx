@@ -1,16 +1,13 @@
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  StatusBar,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
+import { View, SafeAreaView, StatusBar, FlatList, Text } from "react-native";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TransactionItem from "../../components/TransactionItem";
 import SearchFilter from "../../components/SearchFilter";
+import SortButton from "../../components/SortButton";
+import useView1 from "../../hooks/useView1";
+import useView2 from "../../hooks/useView2";
+import useView3 from "../../hooks/useView3";
+import useDateRangePicker from "../../hooks/useDateRangePicker";
 import {
   searchFilter,
   sortBySoldQtyAsc,
@@ -19,12 +16,16 @@ import {
   sortBySoldAmountDsc,
   sortBySoldDateAsc,
   sortBySoldDateDsc,
+  filterByDate,
+  resetFilter,
 } from "../../redux/transactionSlice";
-
-import SortButton from "../../components/SortButton";
-import useView1 from "../../hooks/useView1";
-import useView2 from "../../hooks/useView2";
-import useView3 from "../../hooks/useView3";
+import {
+  DatePickerModal,
+  enGB,
+  registerTranslation,
+} from "react-native-paper-dates";
+import DateFilter from "../../components/DateFilter";
+registerTranslation("enGB", enGB);
 
 const TransactionsScreen = ({ navigation }) => {
   const { filteredTransactionList, isLoading } = useSelector(
@@ -34,22 +35,66 @@ const TransactionsScreen = ({ navigation }) => {
   const { view1, toggleViewFalseOnly1, toggleViewTrueOnly1 } = useView1();
   const { view2, toggleViewFalseOnly2, toggleViewTrueOnly2 } = useView2();
   const { view3, toggleViewFalseOnly3, toggleViewTrueOnly3 } = useView3();
+  const {
+    range,
+    open,
+    onDismiss,
+    onConfirm,
+    setOpen,
+    startDate,
+    endDate,
+    defaultDate,
+  } = useDateRangePicker();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (range.startDate !== null) {
+      dispatch(filterByDate(range));
+    } else return;
+  }, [range]);
 
   return (
     <>
       <StatusBar />
+      <DatePickerModal
+        locale="enGB"
+        mode="range"
+        visible={open}
+        onDismiss={onDismiss}
+        startDate={range.startDate}
+        endDate={range.endDate}
+        onConfirm={onConfirm}
+      />
       <SafeAreaView className="w-full bg-gray-50 flex-1 mb-[70]">
+        {/* SEARCH FILTER */}
         <SearchFilter
           placeHolder={"SEARCH TRANSACTION ID.."}
-          addButton={null}
+          addButton={true}
           searchFilter={searchFilter}
+          iconName={"back-in-time"}
+          buttonFunction={() => dispatch(resetFilter())}
         />
-        <View className="flex-row justify-around w-full border-b border-blue-dianne px-2 pb-2">
+
+        {/* DATE FILTER */}
+        <DateFilter
+          setOpen={setOpen}
+          range={range}
+          open={open}
+          onDismiss={onDismiss}
+          onConfirm={onConfirm}
+          startDate={startDate}
+          endDate={endDate}
+          defaultDate={defaultDate}
+        />
+
+        {/* TABLE HEADER */}
+        <View className="flex-row justify-around w-full items-center border-b border-t border-blue-dianne px-2 bg-blue-dianne">
           <View className="w-1/12 justify-center items-center">
-            <Text className="text-lg text-blue-dianne font-bold">#</Text>
+            <Text className="text-lg text-gray-50 font-bold">#</Text>
           </View>
           <View className="w-4/12 justify-center items-center">
-            <Text className="text-md text-blue-dianne font-semibold">ID</Text>
+            <Text className="text-md text-gray-50 font-semibold">ID</Text>
           </View>
           <SortButton
             style={"w-1/12 justify-center items-center flex-row"}
@@ -105,5 +150,3 @@ const TransactionsScreen = ({ navigation }) => {
 };
 
 export default TransactionsScreen;
-
-const styles = StyleSheet.create({});

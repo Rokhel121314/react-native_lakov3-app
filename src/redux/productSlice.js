@@ -79,7 +79,7 @@ export const deleteProduct = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log("error", error.msg);
+      console.log("error", error);
     }
   }
 );
