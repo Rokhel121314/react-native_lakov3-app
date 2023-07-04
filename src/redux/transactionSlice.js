@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Axios from "axios";
+import moment from "moment";
 
 import { BASE_URL } from "@env";
 
@@ -81,6 +82,25 @@ export const transactionSlice = createSlice({
         a.createdAt > b.createdAt ? 1 : -1
       );
     },
+
+    filterByDate: (state, { payload }) => {
+      state.filteredTransactionList = state.transactionList?.filter(
+        (transaction) => {
+          const transactionDate = moment(transaction.createdAt).format(
+            "MM/DD/YYYY"
+          );
+          return (
+            transactionDate >= moment(payload.startDate).format("MM/DD/YYYY") &&
+            transactionDate <= moment(payload.endDate).format("MM/DD/YYYY")
+          );
+        }
+      );
+      state.transactionDetail = state.filteredTransactionList[0];
+    },
+
+    resetFilter: (state, { payload }) => {
+      state.filteredTransactionList = state.transactionList;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -106,5 +126,7 @@ export const {
   sortBySoldAmountDsc,
   sortBySoldDateAsc,
   sortBySoldDateDsc,
+  filterByDate,
+  resetFilter,
 } = transactionSlice.actions;
 export default transactionSlice.reducer;

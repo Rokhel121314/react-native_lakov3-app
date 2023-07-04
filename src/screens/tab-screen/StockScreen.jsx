@@ -24,6 +24,8 @@ const StockScreen = ({ navigation }) => {
           placeHolder={"SEARCH PRODUCT..."}
           addButton={true}
           searchFilter={searchFilter}
+          iconName={"plus"}
+          buttonFunction={() => navigation.navigate("add-product")}
         />
 
         <FilterButton navigation={navigation} />

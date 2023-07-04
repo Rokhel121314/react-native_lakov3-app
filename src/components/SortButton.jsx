@@ -49,20 +49,20 @@ const SortButton = ({
           disabled={disabled}
           className={style}
           onPress={handleSortAscending}>
-          <Text className="text-md text-blue-dianne font-semibold mr-1">
+          <Text className="text-md text-gray-50 font-semibold mr-1">
             {sortName}
           </Text>
-          {view ? <AntDesign name="arrowup" size={15} color="black" /> : null}
+          {view ? <AntDesign name="arrowup" size={15} color="#fff" /> : null}
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
           disabled={disabled}
           className={style}
           onPress={handleSortDescending}>
-          <Text className="text-md text-blue-dianne font-semibold mr-1">
+          <Text className="text-md text-gray-50 font-semibold mr-1">
             {sortName}
           </Text>
-          {view ? <AntDesign name="arrowdown" size={15} color="black" /> : null}
+          {view ? <AntDesign name="arrowdown" size={15} color="#fff" /> : null}
         </TouchableOpacity>
       )}
     </>
