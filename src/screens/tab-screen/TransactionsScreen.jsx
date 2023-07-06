@@ -43,7 +43,8 @@ const TransactionsScreen = ({ navigation }) => {
     setOpen,
     startDate,
     endDate,
-    defaultDate,
+    defaultEndDate,
+    defaultStartDate,
   } = useDateRangePicker();
 
   const dispatch = useDispatch();
@@ -73,7 +74,12 @@ const TransactionsScreen = ({ navigation }) => {
           addButton={true}
           searchFilter={searchFilter}
           iconName={"back-in-time"}
-          buttonFunction={() => dispatch(resetFilter())}
+          buttonFunction={() => {
+            dispatch(resetFilter());
+            toggleViewFalseOnly1();
+            toggleViewFalseOnly2();
+            toggleViewFalseOnly3();
+          }}
         />
 
         {/* DATE FILTER */}
@@ -85,7 +91,8 @@ const TransactionsScreen = ({ navigation }) => {
           onConfirm={onConfirm}
           startDate={startDate}
           endDate={endDate}
-          defaultDate={defaultDate}
+          defaultEndDate={defaultEndDate}
+          defaultStartDate={defaultStartDate}
         />
 
         {/* TABLE HEADER */}

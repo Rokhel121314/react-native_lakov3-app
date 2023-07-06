@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useView3 = (initialValue = false) => {
+const useView3 = (initialValue = true) => {
   const [view3, setView3] = useState(initialValue);
   const toggleView3 = () => {
     setView3((prev) => !prev);

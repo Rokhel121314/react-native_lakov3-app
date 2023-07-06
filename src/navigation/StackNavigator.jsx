@@ -18,6 +18,7 @@ import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen
 import TabNavigator from "./TabNavigator";
 import StackNavHeader from "../components/StackNavHeader";
 import StackNavHeader2 from "../components/StackNavHeader2";
+import LoadingScreen from "../components/LoadingScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,13 +41,7 @@ const StackNavigator = ({ navigation }) => {
   }, [uid]);
 
   if (isLoading) {
-    return (
-      <ActivityIndicator
-        size={"large"}
-        color={"#fff"}
-        style={{ flex: 1, backgroundColor: "#344c57" }}
-      />
-    );
+    return <LoadingScreen />;
   }
   return (
     <Stack.Navigator screenOptions={{ gestureEnabled: false }}>
