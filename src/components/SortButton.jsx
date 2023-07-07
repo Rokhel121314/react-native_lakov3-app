@@ -17,7 +17,6 @@ const SortButton = ({
   const dispatch = useDispatch();
   const { value, toggle } = useToggle();
   const [disabled, setDisabled] = useState(false);
-  console.log("value", value);
 
   const handleSortAscending = () => {
     dispatch(sortAscending());

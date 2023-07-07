@@ -32,6 +32,12 @@ export const transactionSlice = createSlice({
     filteredTransactionList: [],
     transactionDetail: [],
     sortedTransaction: [],
+    totalTransactionQuantity: [],
+    totalTransactionAmount: [],
+    totalTransactionCost: [],
+    totalTransactions: 0,
+    totalTransactionProfit: 0,
+    soldItemsList: [],
     isLoading: false,
   },
   reducers: {
@@ -101,6 +107,30 @@ export const transactionSlice = createSlice({
     resetFilter: (state, { payload }) => {
       state.filteredTransactionList = state.transactionList;
     },
+
+    getTransactionTotals: (state, { payload }) => {
+      state.totalTransactionQuantity = state.filteredTransactionList
+        .map((product) => product.transaction_sold_quantity)
+        .reduce((a, b) => a + b, 0);
+
+      state.totalTransactionAmount = state.filteredTransactionList
+        .map((product) => product.transaction_sold_amount)
+        .reduce((a, b) => a + b, 0);
+
+      state.totalTransactionProfit = state.filteredTransactionList
+        .map((product) => product.transaction_profit_amount)
+        .reduce((a, b) => a + b, 0);
+
+      state.totalTransactionCost = state.filteredTransactionList
+        .map((product) => product.transaction_cost_amount)
+        .reduce((a, b) => a + b, 0);
+
+      state.soldItemsList = state.filteredTransactionList
+        .map((transaction) => transaction.transaction_sold_items)
+        .flat();
+
+      state.totalTransactions = state.filteredTransactionList.length;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,5 +158,6 @@ export const {
   sortBySoldDateDsc,
   filterByDate,
   resetFilter,
+  getTransactionTotals,
 } = transactionSlice.actions;
 export default transactionSlice.reducer;

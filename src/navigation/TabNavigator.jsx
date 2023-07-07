@@ -12,7 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllProduct } from "../redux/productSlice";
 import useFirebaseAuth from "../hooks/useFirebaseAuth";
-import { getAllTransactions } from "../redux/transactionSlice";
+import {
+  getAllTransactions,
+  getTransactionTotals,
+} from "../redux/transactionSlice";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +32,9 @@ const TabNavigator = ({ navigation }) => {
         navigation.navigate("login");
       } else if (uid !== null) {
         dispatch(getAllProduct(userData.user_id));
-        dispatch(getAllTransactions(userData.user_id));
+        dispatch(getAllTransactions(userData.user_id)).then(() =>
+          dispatch(getTransactionTotals())
+        );
       }
     });
   }, [userData, productDetail, productData]);
