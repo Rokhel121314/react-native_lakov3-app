@@ -32,9 +32,9 @@ const TabNavigator = ({ navigation }) => {
         navigation.navigate("login");
       } else if (uid !== null) {
         dispatch(getAllProduct(userData.user_id));
-        dispatch(getAllTransactions(userData.user_id)).then(() =>
-          dispatch(getTransactionTotals())
-        );
+        dispatch(getAllTransactions(userData.user_id)).then(() => {
+          dispatch(getTransactionTotals());
+        });
       }
     });
   }, [userData, productDetail, productData]);

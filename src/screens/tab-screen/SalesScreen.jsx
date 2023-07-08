@@ -1,15 +1,18 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, TouchableOpacity, Text, View } from "react-native";
 import DateFilter from "../../components/DateFilter";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import useDateRangePicker from "../../hooks/useDateRangePicker";
+import SalesDataItem from "../../components/SalesDataItem";
+import TopSellers from "../../components/TopSellers";
+import { useDispatch, useSelector } from "react-redux";
 import {
   DatePickerModal,
   enGB,
   registerTranslation,
 } from "react-native-paper-dates";
-import { useDispatch, useSelector } from "react-redux";
 import {
   filterByDate,
+  getSalesData,
   getTransactionTotals,
 } from "../../redux/transactionSlice";
 registerTranslation("enGB", enGB);
@@ -27,15 +30,18 @@ const SalesScreen = () => {
     defaultStartDate,
   } = useDateRangePicker();
 
-  const { userData } = useSelector((state) => state.user);
   const {
     totalTransactionQuantity,
     totalTransactionAmount,
     totalTransactionCost,
     totalTransactions,
     totalTransactionProfit,
-    filteredTransactionList,
+    salesData,
   } = useSelector((state) => state.transaction);
+
+  const { userData } = useSelector((state) => state.user);
+
+  const { allProductData } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
 
@@ -43,8 +49,25 @@ const SalesScreen = () => {
     if (range.startDate !== null) {
       dispatch(filterByDate(range));
       dispatch(getTransactionTotals());
+      dispatch(getSalesData(allProductData));
     } else return;
+  }, [range, userData]);
+
+  useEffect(() => {
+    dispatch(getSalesData(allProductData));
   }, [range]);
+
+  const salesDataSortedByQty = salesData
+    .slice()
+    .sort((a, b) =>
+      a.sold_quantity_percentage > b.sold_quantity_percentage ? -1 : 1
+    );
+
+  const salesDataSortedBySales = salesData
+    .slice()
+    .sort((a, b) =>
+      a.sold_amount_percentage > b.sold_amount_percentage ? -1 : 1
+    );
 
   //
   return (
@@ -85,46 +108,73 @@ const SalesScreen = () => {
       {/* SALES DATA */}
       <ScrollView className="flex-4">
         <View className="w-full px-6 my-2">
-          <View className="w-full h-[90px] bg-blue-dianne rounded-xl px-5 flex-row items-center">
-            <Text className="text-gray-50 text-5xl font-medium mr-5">{`${totalTransactions}`}</Text>
-            <Text className="text-gray-50 text-2xl font-semibold tracking-widest">
-              TRANSACTIONS
-            </Text>
-          </View>
+          <SalesDataItem
+            containerStyle={
+              "w-full h-[90px] bg-blue-dianne rounded-xl px-5 flex-row-reverse items-center justify-center"
+            }
+            textStyle1={"text-gray-50 text-5xl font-medium mr-5"}
+            textStyle2={"text-gray-50 text-2xl font-semibold tracking-widest"}
+            salesProperty={"TRANSACTIONS"}
+            salesValue={totalTransactions}
+          />
         </View>
+
         <View className="flex-row w-full px-6 justify-between my-2">
-          <View className="w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly">
-            <Text className="text-gray-50 text-base font-light">SALES</Text>
-            <Text className="text-gray-50 text-lg font-medium">{`${totalTransactionQuantity.toFixed(
-              2
-            )} pcs`}</Text>
-          </View>
-          <View className="w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly">
-            <Text className="text-gray-50 text-base font-light">REVENUE</Text>
-            <Text className="text-gray-50 text-lg font-medium">
-              {`$ ${totalTransactionAmount?.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}`}
-            </Text>
-          </View>
+          <SalesDataItem
+            containerStyle={
+              "w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly"
+            }
+            textStyle1={(className = "text-gray-50 text-lg font-medium")}
+            textStyle2={"text-gray-50 text-base font-light"}
+            salesProperty={"SALES"}
+            salesValue={totalTransactionQuantity.toFixed(2)}
+            prefix={null}
+            suffix={"pcs"}
+          />
+
+          <SalesDataItem
+            containerStyle={
+              "w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly"
+            }
+            textStyle1={(className = "text-gray-50 text-lg font-medium")}
+            textStyle2={"text-gray-50 text-base font-light"}
+            salesProperty={"REVENUE"}
+            salesValue={totalTransactionAmount?.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+            prefix={"$ "}
+            suffix={null}
+          />
         </View>
+
         <View className="flex-row w-full px-6 justify-between my-2">
-          <View className="w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly">
-            <Text className="text-gray-50 text-base font-light">CAPITAL</Text>
-            <Text className="text-gray-50 text-lg font-medium">
-              {`$ ${totalTransactionCost?.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}`}
-            </Text>
-          </View>
-          <View className="w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly">
-            <Text className="text-gray-50 text-base font-light">PROFIT</Text>
-            <Text className="text-gray-50 text-lg font-medium">
-              {`$ ${totalTransactionProfit?.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}`}
-            </Text>
-          </View>
+          <SalesDataItem
+            containerStyle={
+              "w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly"
+            }
+            textStyle1={(className = "text-gray-50 text-lg font-medium")}
+            textStyle2={"text-gray-50 text-base font-light"}
+            salesProperty={"CAPITAL"}
+            salesValue={totalTransactionCost?.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+            prefix={"$ "}
+            suffix={null}
+          />
+
+          <SalesDataItem
+            containerStyle={
+              "w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly"
+            }
+            textStyle1={(className = "text-gray-50 text-lg font-medium")}
+            textStyle2={"text-gray-50 text-base font-light"}
+            salesProperty={"CAPITAL"}
+            salesValue={totalTransactionProfit?.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
+            prefix={"$ "}
+            suffix={null}
+          />
         </View>
 
         {/* SALES GRAPH */}
@@ -135,43 +185,22 @@ const SalesScreen = () => {
           />
         </View>
 
-        {/* TOP SELLERS */}
+        {/* TOP SELLERS BY QTY */}
         <View className="w-full px-6 mb-5">
-          <View className="w-full p-6 bg-blue-dianne rounded-lg">
-            <Text className="text-gray-50 font-medium text-lg">
-              TOP SELLERS
-            </Text>
-            <View className="flex-row justify-between">
-              <Text className="text-gray-50 font-extralight text-base">
-                Americano
-              </Text>
-              <Text className="text-gray-50 font-md text-base">11.11%</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="text-gray-50 font-extralight text-base">
-                Baggels
-              </Text>
-              <Text className="text-gray-50 font-md text-base">11.11%</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="text-gray-50 font-extralight text-base">
-                Bread Sticks
-              </Text>
-              <Text className="text-gray-50 font-md text-base">11.11%</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="text-gray-50 font-extralight text-base">
-                Cinnamon Roll
-              </Text>
-              <Text className="text-gray-50 font-md text-base">11.11%</Text>
-            </View>
-            <View className="flex-row justify-between">
-              <Text className="text-gray-50 font-extralight text-base">
-                Glace
-              </Text>
-              <Text className="text-gray-50 font-md text-base">11.11%</Text>
-            </View>
-          </View>
+          <TopSellers
+            title={"TOP SELLERS / QUANTITY"}
+            sortedSalesData={salesDataSortedByQty}
+            salesProperty={"sold_quantity_percentage"}
+          />
+        </View>
+
+        {/* TOP SELLERS BY SALES */}
+        <View className="w-full px-6 mb-5">
+          <TopSellers
+            title={"TOP SELLERS / SALES"}
+            sortedSalesData={salesDataSortedBySales}
+            salesProperty={"sold_amount_percentage"}
+          />
         </View>
       </ScrollView>
     </View>
