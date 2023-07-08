@@ -13,8 +13,10 @@ import {
 import {
   filterByDate,
   getSalesData,
+  getSalesDataByDate,
   getTransactionTotals,
 } from "../../redux/transactionSlice";
+import BezierLineChart from "../../components/BezierLineChart";
 registerTranslation("enGB", enGB);
 
 const SalesScreen = () => {
@@ -37,6 +39,7 @@ const SalesScreen = () => {
     totalTransactions,
     totalTransactionProfit,
     salesData,
+    salesDataByDate,
   } = useSelector((state) => state.transaction);
 
   const { userData } = useSelector((state) => state.user);
@@ -50,11 +53,13 @@ const SalesScreen = () => {
       dispatch(filterByDate(range));
       dispatch(getTransactionTotals());
       dispatch(getSalesData(allProductData));
+      dispatch(getSalesDataByDate());
     } else return;
   }, [range, userData]);
 
   useEffect(() => {
     dispatch(getSalesData(allProductData));
+    dispatch(getSalesDataByDate());
   }, [range]);
 
   const salesDataSortedByQty = salesData
@@ -179,10 +184,7 @@ const SalesScreen = () => {
 
         {/* SALES GRAPH */}
         <View className="px-6">
-          <Image
-            source={require("../../../assets/images/chart_img.png")}
-            style={{ width: "100%", height: 200, resizeMode: "contain" }}
-          />
+          <BezierLineChart salesDataByDate={salesDataByDate} />
         </View>
 
         {/* TOP SELLERS BY QTY */}

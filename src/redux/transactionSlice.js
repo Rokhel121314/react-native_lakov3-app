@@ -200,8 +200,9 @@ export const transactionSlice = createSlice({
     getSalesDataByDate: (state, { payload }) => {
       state.salesDataByDate = [];
 
-      const salesDate = state.filteredTransactionList.map((date) =>
-        format(new Date(date.createdAt), "MM/dd/yyyy")
+      const salesDate = state.filteredTransactionList.map(
+        (date) => moment(date.createdAt).format("MM/DD/YYYY")
+        // format(new Date(date.createdAt), "MM/dd/yyyy")
       );
 
       const dateFilter = [...new Set(salesDate)];
@@ -210,7 +211,8 @@ export const transactionSlice = createSlice({
         return state.filteredTransactionList
           .filter(
             (transaction) =>
-              format(new Date(transaction.createdAt), "MM/dd/yyy") === date
+              moment(transaction.createdAt).format("MM/DD/YYYY") === date
+            // format(new Date(transaction.createdAt), "MM/dd/yyy") === date
           )
           .map((quantity) => quantity.transaction_sold_quantity)
           .reduce((a, b) => a + b, 0);
@@ -220,7 +222,8 @@ export const transactionSlice = createSlice({
         return state.filteredTransactionList
           .filter(
             (transaction) =>
-              format(new Date(transaction.createdAt), "MM/dd/yyy") === date
+              moment(transaction.createdAt).format("MM/DD/YYYY") === date
+            // format(new Date(transaction.createdAt), "MM/dd/yyy") === date
           )
           .map((amount) => amount.transaction_sold_amount)
           .reduce((a, b) => a + b, 0);
@@ -230,7 +233,8 @@ export const transactionSlice = createSlice({
         return state.filteredTransactionList
           .filter(
             (transaction) =>
-              format(new Date(transaction.createdAt), "MM/dd/yyy") === date
+              moment(transaction.createdAt).format("MM/DD/YYYY") === date
+            // format(new Date(transaction.createdAt), "MM/dd/yyy") === date
           )
           .map((profit) => profit.transaction_profit_amount)
           .reduce((a, b) => a + b, 0);
@@ -254,7 +258,7 @@ export const transactionSlice = createSlice({
       state.perProductSalesDataByDate = [];
 
       const salesDate = state.filteredTransactionList.map((date) =>
-        format(new Date(date.createdAt), "MM/dd/yyyy")
+        moment(date.createdAt).format("MM/DD/YYYY")
       );
 
       const dateFilter = [...new Set(salesDate)];
@@ -262,7 +266,7 @@ export const transactionSlice = createSlice({
       const data = dateFilter.map((date) => {
         return state.filteredTransactionList.filter(
           (transaction) =>
-            format(new Date(transaction.createdAt), "MM/dd/yyyy") === date
+            moment(transaction.createdAt).format("MM/DD/YYYY") === date
         );
       });
 
