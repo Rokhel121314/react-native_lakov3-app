@@ -4,6 +4,7 @@ import BackButton from "./BackButton";
 import { deleteProduct } from "../redux/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmationModal from "./ConfirmationModal";
+import { Feather } from "@expo/vector-icons";
 
 const StackNavHeader = ({
   item,
@@ -59,24 +60,36 @@ const StackNavHeader = ({
             {title}
           </Text>
         ) : null}
-        <View className="flex-row mr-4 gap-3">
+        <View className="flex-row mr-6 gap-3">
           {editButton ? (
             <TouchableOpacity
-              className="bg-blue-dianne rounded-xl justify-items-center"
+              className="bg-blue-dianne rounded-3xl flex-row items-center"
               onPress={() => navigation.navigate("update-product", { item })}>
-              <Text className="px-2 py-1 text-gray-50">EDIT</Text>
+              <Feather
+                name="edit"
+                size={18}
+                color="#fff"
+                style={{ paddingRight: 3, paddingLeft: 10 }}
+              />
+              <Text className="pr-5 py-2 text-gray-50">EDIT</Text>
             </TouchableOpacity>
           ) : null}
           {deleteButton ? (
             <TouchableOpacity
-              className="bg-blue-dianne rounded-xl justify-items-center"
+              className="bg-deep-amethyst rounded-3xl flex-row items-center"
               onPress={() => setModalVisible(true)}>
-              <Text className="px-2 py-1 text-gray-50">DELETE</Text>
+              <Feather
+                name="trash-2"
+                size={20}
+                color="#fff"
+                style={{ paddingRight: 3, paddingLeft: 10 }}
+              />
+              <Text className="pr-3 py-2 text-gray-50">DELETE</Text>
             </TouchableOpacity>
           ) : null}
           {saveButton ? (
             <TouchableOpacity className="bg-blue-dianne rounded-xl justify-items-center">
-              <Text className="px-2 py-1 text-gray-50">SAVE</Text>
+              <Text className="px-2 py-2 text-gray-50">SAVE</Text>
             </TouchableOpacity>
           ) : null}
         </View>

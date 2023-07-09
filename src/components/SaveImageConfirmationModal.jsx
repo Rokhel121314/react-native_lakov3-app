@@ -61,9 +61,9 @@ const SaveImageConfirmationModal = (props) => {
                 </Text>
                 <View className="flex-row justify-around w-full mt-10">
                   <TouchableOpacity
-                    className="rounded-lg border border-blue-dianne"
+                    className="rounded-lg bg-deep-amethyst"
                     onPress={() => setModalVisible(false)}>
-                    <Text className="px-4 py-1 text-blue-dianne text-lg font-bold">
+                    <Text className="px-4 py-1 text-gray-50 text-lg font-bold">
                       {cancelBtnText}
                     </Text>
                   </TouchableOpacity>

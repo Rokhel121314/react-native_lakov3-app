@@ -111,9 +111,9 @@ const ViewTransactionScreen = ({ navigation }) => {
         </ViewShot>
         <View className="flex-1 px-5 mt-5 mb-5 ">
           <TouchableOpacity
-            className="border-2 border-blue-dianne items-center "
+            className="bg-deep-amethyst items-center "
             onPress={() => setModalVisible(true)}>
-            <Text className="py-3 text-blue-dianne text-base font-bold tracking-widest">
+            <Text className="py-3 text-gray-50 text-base font-bold tracking-widest">
               STORE RECEIPT
             </Text>
           </TouchableOpacity>

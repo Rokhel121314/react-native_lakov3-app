@@ -112,10 +112,10 @@ const SalesScreen = () => {
 
       {/* SALES DATA */}
       <ScrollView className="flex-4">
-        <View className="w-full px-6 my-2">
+        <View className="w-full my-2 px-6">
           <SalesDataItem
             containerStyle={
-              "w-full h-[90px] bg-blue-dianne rounded-xl px-5 flex-row-reverse items-center justify-center"
+              "w-full h-[90px] rounded-xl px-5 flex-row-reverse items-center justify-center bg-blue-dianne"
             }
             textStyle1={"text-gray-50 text-5xl font-medium mr-5"}
             textStyle2={"text-gray-50 text-2xl font-semibold tracking-widest"}
@@ -129,7 +129,7 @@ const SalesScreen = () => {
             containerStyle={
               "w-[47%] h-[90px] bg-blue-dianne rounded-xl px-5 justify-evenly"
             }
-            textStyle1={(className = "text-gray-50 text-lg font-medium")}
+            textStyle1={(className = "text-gray-50 text-lg font-medium ")}
             textStyle2={"text-gray-50 text-base font-light"}
             salesProperty={"SALES"}
             salesValue={totalTransactionQuantity.toFixed(2)}

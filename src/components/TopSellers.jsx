@@ -29,19 +29,25 @@ const TopSellers = ({ title, sortedSalesData, salesProperty }) => {
               );
             })}
       </View>
-      <TouchableOpacity
-        className="w-full items-end mt-1 "
-        onPress={() => {
-          sliceLenght === 5
-            ? setSlicLength(allProductData.length)
-            : setSlicLength(5);
-        }}>
-        {sliceLenght === 5 ? (
-          <Text className="text-gray-50 underline">view all...</Text>
-        ) : (
-          <Text className="text-gray-50 underline">view less...</Text>
-        )}
-      </TouchableOpacity>
+      <View className="w-full">
+        <TouchableOpacity
+          className="rounded-lg mt-2 items-end"
+          onPress={() => {
+            sliceLenght === 5
+              ? setSlicLength(allProductData.length)
+              : setSlicLength(5);
+          }}>
+          {sliceLenght === 5 ? (
+            <Text className="text-gray-50 px-2 py-1 bg-deep-amethyst rounded-2xl">
+              view all
+            </Text>
+          ) : (
+            <Text className="text-gray-50 px-2 py-1 bg-deep-amethyst rounded-2xl">
+              view less
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

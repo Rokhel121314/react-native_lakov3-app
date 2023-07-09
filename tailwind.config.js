@@ -5,9 +5,11 @@ module.exports = {
     extend: {
       colors: {
         "blue-dianne": "#344C57",
+        "deep-amethyst": "#9F89AB",
       },
       backgroundColor: {
         "blue-dianne": "#344C57",
+        "deep-amethyst": "#9F89AB",
         "blue-dianne-blur": "rgba(20, 30, 34, .8)",
       },
       flex: {
@@ -18,6 +20,7 @@ module.exports = {
       },
       borderColor: {
         "blue-dianne": "#344C57",
+        "deep-amethyst": "#9F89AB",
       },
     },
   },
