@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { typeFilter } from "../redux/productSlice";
 
-const FilterButton = ({ navigation }) => {
+const FilterButton = ({ navigation, containerStyle }) => {
   const { allProductData } = useSelector((state) => state.product);
   //
   const productTypes = allProductData?.map((product) => product.product_type);
@@ -11,7 +11,7 @@ const FilterButton = ({ navigation }) => {
   const [type, setType] = useState("all");
 
   return (
-    <View className="bg-gray-50 h-10 flex-row items-center justify-between px-3 border-b border-gray-300">
+    <View className={containerStyle}>
       <FlatList
         data={filterOptions}
         renderItem={({ item }) => (

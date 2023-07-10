@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 
 const ProductItem = ({ item, navigation }) => {
   const dispatch = useDispatch();
+
   return (
     <TouchableOpacity
       className="w-[110px] h-[110px] m-2 rounded-lg items-center relative"

@@ -10,14 +10,16 @@ const SearchFilter = ({
   searchFilter,
   iconName,
   buttonFunction,
+  containerStyle,
+  textStyle,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   return (
-    <View className="bg-gray-50 h-16 flex-row items-center justify-between px-5">
+    <View className={containerStyle}>
       <TextInput
         placeholder={placeHolder}
-        className=" bg-gray-50 text-gray-800 py-1  pl-3 border border-blue-dianne rounded-3xl w-10/12 text-md"
+        className={textStyle}
         onChangeText={(text) => {
           dispatch(searchFilter(text));
         }}

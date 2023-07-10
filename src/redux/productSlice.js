@@ -100,7 +100,11 @@ export const productSlice = createSlice({
       state.productDetail = payload;
     },
     unGetAllProduct: (state) => {
+      state.productData = [];
       state.allProductData = [];
+      state.productDetail = [];
+      state.filteredProductData = [];
+      state.productIndex = [];
     },
     searchFilter: (state, { payload }) => {
       if (payload === "") {

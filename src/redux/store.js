@@ -17,18 +17,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import userSlice from "./userSlice";
 import productSlice from "./productSlice";
 import transactionSlice from "./transactionSlice";
+import cartSlice from "./cartSlice";
 
 const rootReducer = combineReducers({
   user: userSlice,
   product: productSlice,
   transaction: transactionSlice,
+  cart: cartSlice,
 });
 
 const persistConfig = {
   key: "user",
   version: 1,
   storage: AsyncStorage,
-  blacklist: [productSlice, transactionSlice],
+  blacklist: [productSlice, transactionSlice, cartSlice],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

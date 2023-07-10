@@ -5,6 +5,7 @@ import { useAsyncStorage } from "../hooks/useAsyncStorage";
 import { useDispatch } from "react-redux";
 import { unGetAllProduct } from "../redux/productSlice";
 import { removeTransactionList } from "../redux/transactionSlice";
+import { resetCounter } from "../redux/cartSlice";
 
 const LogoutButton = () => {
   const { fireBaseLogout, fireBaseAuthenticateUser, uid } = useFirebaseAuth();
@@ -23,6 +24,7 @@ const LogoutButton = () => {
           removeUserInfo().then(() => {
             dispatch(unGetAllProduct());
             dispatch(removeTransactionList());
+            dispatch(resetCounter());
           })
         );
       }}>

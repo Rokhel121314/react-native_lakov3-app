@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 const ViewProductScreen = () => {
   const { productDetail } = useSelector((state) => state.product);
+
   const productName =
     productDetail.product_name.charAt(0).toUpperCase() +
     productDetail.product_name.slice(1);
