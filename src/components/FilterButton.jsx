@@ -1,9 +1,8 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { typeFilter } from "../redux/productSlice";
 
-const FilterButton = ({ navigation, containerStyle }) => {
+const FilterButton = ({ navigation, containerStyle, filterFunction }) => {
   const { allProductData } = useSelector((state) => state.product);
   //
   const productTypes = allProductData?.map((product) => product.product_type);
@@ -15,7 +14,12 @@ const FilterButton = ({ navigation, containerStyle }) => {
       <FlatList
         data={filterOptions}
         renderItem={({ item }) => (
-          <Filters item={item} type={type} setType={setType} />
+          <Filters
+            item={item}
+            type={type}
+            setType={setType}
+            filterFunction={filterFunction}
+          />
         )}
         keyExtractor={(item) => item}
         horizontal
@@ -25,7 +29,7 @@ const FilterButton = ({ navigation, containerStyle }) => {
   );
 };
 
-const Filters = ({ item, type, setType }) => {
+const Filters = ({ item, type, setType, filterFunction }) => {
   //
   const dispatch = useDispatch();
   const activeFilter =
@@ -36,7 +40,7 @@ const Filters = ({ item, type, setType }) => {
     <TouchableOpacity
       className={item === type ? activeFilter : inactiveFilter}
       onPress={() => {
-        dispatch(typeFilter(item));
+        dispatch(filterFunction(item));
         setType(item);
       }}>
       <Text

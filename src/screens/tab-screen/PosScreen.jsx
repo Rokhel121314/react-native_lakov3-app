@@ -10,14 +10,18 @@ import SearchFilter from "../../components/SearchFilter";
 import FilterButton from "../../components/FilterButton";
 import { useDispatch, useSelector } from "react-redux";
 import CounterItem from "../../components/CounterItem";
-import { searchFilter } from "../../redux/productSlice";
+import {
+  searchFilter,
+  searchFilterPos,
+  typeFilterPos,
+} from "../../redux/productSlice";
 import OrderItem from "../../components/OrderItem";
 import { resetCounter } from "../../redux/cartSlice";
 import CounterModal from "../../components/CounterModal";
 
 const PosScreen = () => {
   //
-  const { filteredProductData } = useSelector((state) => state.product);
+  const { filteredProductDataPos } = useSelector((state) => state.product);
   const { counterItems, cartItem } = useSelector((state) => state.cart);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -83,10 +87,9 @@ const PosScreen = () => {
             placeHolder={"SEARCH PRODUCT..."}
             addButton={false}
             searchFilter={searchFilter}
-            iconName={{}}
-            buttonFunction={{}}
           />
           <FilterButton
+            filterFunction={typeFilterPos}
             containerStyle={"h-8 flex-row items-center justify-between"}
           />
         </View>
@@ -94,7 +97,7 @@ const PosScreen = () => {
         <View className="w-full mt-3 flex-1">
           {/* PRODUCT ITEM */}
           <FlatList
-            data={filteredProductData}
+            data={filteredProductDataPos}
             renderItem={({ item, index }) => (
               <CounterItem
                 item={item}

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import ProductItem from "../../components/ProductItem";
 import FilterButton from "../../components/FilterButton";
 import SearchFilter from "../../components/SearchFilter";
-import { searchFilter } from "../../redux/productSlice";
+import { searchFilter, typeFilter } from "../../redux/productSlice";
 
 const StockScreen = ({ navigation }) => {
   //
@@ -35,6 +35,7 @@ const StockScreen = ({ navigation }) => {
         />
 
         <FilterButton
+          filterFunction={typeFilter}
           navigation={navigation}
           containerStyle={
             "bg-gray-50 h-10 flex-row items-center justify-between px-3 border-b border-gray-300"

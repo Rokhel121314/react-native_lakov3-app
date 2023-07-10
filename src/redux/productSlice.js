@@ -91,6 +91,7 @@ export const productSlice = createSlice({
     allProductData: [],
     productDetail: [],
     filteredProductData: [],
+    filteredProductDataPos: [],
     productIndex: [],
     isLoadingProduct: false,
     isSavingProduct: false,
@@ -126,6 +127,16 @@ export const productSlice = createSlice({
         );
       }
     },
+
+    typeFilterPos: (state, { payload }) => {
+      if (payload === "all") {
+        state.filteredProductDataPos = state.allProductData;
+      } else {
+        state.filteredProductDataPos = state.allProductData.filter(
+          (product) => product.product_type === payload
+        );
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -135,6 +146,7 @@ export const productSlice = createSlice({
       .addCase(getAllProduct.fulfilled, (state, { payload }) => {
         state.allProductData = payload;
         state.filteredProductData = payload;
+        state.filteredProductDataPos = payload;
         state.isLoadingProduct = false;
       })
       .addCase(updateProduct.pending, (state, { payload }) => {
@@ -172,6 +184,11 @@ export const productSlice = createSlice({
   },
 });
 
-export const { unGetAllProduct, searchFilter, typeFilter, getProductDetail } =
-  productSlice.actions;
+export const {
+  unGetAllProduct,
+  searchFilter,
+  typeFilter,
+  getProductDetail,
+  typeFilterPos,
+} = productSlice.actions;
 export default productSlice.reducer;
