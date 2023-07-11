@@ -11,6 +11,8 @@ const CounterModal = (props) => {
 
   const { counterItems } = useSelector((state) => state.cart);
   const [itemQuantity, setItemQuantity] = useState("1");
+  const [disableIncrement, setDisableIncrement] = useState(false);
+  const [disableDecrement, setDisableDecrement] = useState(false);
 
   const itemQty = counterItems
     .filter((cart) => cart._id === item._id)
@@ -25,6 +27,40 @@ const CounterModal = (props) => {
   useEffect(() => {
     setItemQuantity(onCounter ? itemQty.toString() : "1");
   }, [item]);
+
+  // console.log("item", item.product_quantity > itemQuantity);
+  console.log("decrement", disableDecrement, "increment", disableIncrement);
+
+  const incrementCounter = () => {
+    if (item.product_quantity > itemQuantity) {
+      setItemQuantity((parseInt(itemQuantity) + 1).toString());
+      setDisableDecrement(false);
+    } else {
+      setDisableDecrement(false);
+      setDisableIncrement(true);
+      alert(`STOCK REMAINING: ${item.product_quantity} pcs`);
+    }
+  };
+
+  const decrementCounter = () => {
+    if (itemQuantity > 1) {
+      setItemQuantity((parseInt(itemQuantity) - 1).toString());
+      setDisableIncrement(false);
+    } else {
+      setDisableDecrement(true);
+      setDisableIncrement(false);
+      alert(`MINIMUM PURCHASE OF 1 pc`);
+    }
+  };
+
+  const inputQty = (text) => {
+    if (text > item.product_quantity) {
+      alert(`STOCK REMAINING: ${item.product_quantity} pcs`);
+      setItemQuantity(item.product_quantity.toString());
+    } else {
+      setItemQuantity(text);
+    }
+  };
 
   return (
     <Modal
@@ -42,9 +78,8 @@ const CounterModal = (props) => {
             <View className="w-full flex-row justify-around h-9 items-center mt-3">
               {/* DECREMENT BUTTON */}
               <TouchableOpacity
-                onPress={() =>
-                  setItemQuantity((parseInt(itemQuantity) - 1).toString())
-                }>
+                disabled={disableDecrement}
+                onPress={decrementCounter}>
                 <AntDesign name="minussquareo" size={38} color="#9c8aa4" />
               </TouchableOpacity>
 
@@ -52,7 +87,7 @@ const CounterModal = (props) => {
               <TextInput
                 value={itemQuantity}
                 onChangeText={(text) => {
-                  setItemQuantity(text);
+                  inputQty(text);
                 }}
                 keyboardType="number-pad"
                 className="text-2xl border border-blue-dianne h-8 w-24 text-center rounded-md text-blue-dianne"
@@ -60,9 +95,8 @@ const CounterModal = (props) => {
 
               {/* INCREMENT BUTTON */}
               <TouchableOpacity
-                onPress={() =>
-                  setItemQuantity((parseInt(itemQuantity) + 1).toString())
-                }>
+                onPress={incrementCounter}
+                disabled={disableIncrement}>
                 <AntDesign name="plussquareo" size={38} color="#344c57" />
               </TouchableOpacity>
             </View>
