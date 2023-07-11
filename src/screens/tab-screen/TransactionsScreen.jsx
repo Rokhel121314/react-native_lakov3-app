@@ -71,6 +71,12 @@ const TransactionsScreen = ({ navigation }) => {
         {/* SEARCH FILTER */}
         <SearchFilter
           placeHolder={"SEARCH TRANSACTION ID.."}
+          containerStyle={
+            "bg-gray-50 h-16 flex-row items-center justify-between px-5"
+          }
+          textStyle={
+            " bg-gray-50 text-gray-800 py-1  pl-3 border border-blue-dianne rounded-3xl w-10/12 text-md"
+          }
           addButton={true}
           searchFilter={searchFilter}
           iconName={"back-in-time"}

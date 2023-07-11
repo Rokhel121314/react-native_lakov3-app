@@ -1,10 +1,11 @@
 import { Image, ScrollView, TouchableOpacity, Text, View } from "react-native";
 import DateFilter from "../../components/DateFilter";
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import React, { useEffect } from "react";
 import useDateRangePicker from "../../hooks/useDateRangePicker";
 import SalesDataItem from "../../components/SalesDataItem";
 import TopSellers from "../../components/TopSellers";
 import { useDispatch, useSelector } from "react-redux";
+import LoadingScreen from "../../components/LoadingScreen";
 import {
   DatePickerModal,
   enGB,
@@ -73,6 +74,10 @@ const SalesScreen = () => {
     .sort((a, b) =>
       a.sold_amount_percentage > b.sold_amount_percentage ? -1 : 1
     );
+
+  if (!salesData) {
+    return <LoadingScreen />;
+  }
 
   //
   return (
