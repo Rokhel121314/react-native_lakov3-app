@@ -30,7 +30,7 @@ export const counterSlice = createSlice({
                   item_quantity:
                     state.onCounter.product_quantity >
                     state.onCounter.item_quantity
-                      ? state.onCounter.item_quantity + 1
+                      ? parseInt(state.onCounter.item_quantity) + 1
                       : state.onCounter.item_quantity + 0,
                 }
               : product
@@ -43,7 +43,7 @@ export const counterSlice = createSlice({
         }
         state.totalQuantity = state.counterItems
           .map((product) => product.item_quantity)
-          .reduce((a, b) => a + b, 0);
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
         state.totalSellingPrice = state.counterItems
           .map((product) => product.item_quantity * product.selling_price)
@@ -54,7 +54,9 @@ export const counterSlice = createSlice({
           .reduce((a, b) => a + b, 0);
 
         state.totalProfit = state.totalSellingPrice - state.totalOriginalPrice;
-      } else return;
+      } else {
+        alert(`REMAINING STOCKS: ${payload.product_quantity} pcs`);
+      }
     },
 
     inputCounterValue: (state, { payload }) => {
@@ -86,7 +88,7 @@ export const counterSlice = createSlice({
         }
         state.totalQuantity = state.counterItems
           .map((product) => product.item_quantity)
-          .reduce((a, b) => a + b, 0);
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
         state.totalSellingPrice = state.counterItems
           .map((product) => product.item_quantity * product.selling_price)
@@ -121,7 +123,7 @@ export const counterSlice = createSlice({
       }
       state.totalQuantity = state.counterItems
         .map((product) => product.item_quantity)
-        .reduce((a, b) => a + b, 0);
+        .reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
       state.totalSellingPrice = state.counterItems
         .map((product) => product.item_quantity * product.selling_price)
@@ -140,7 +142,7 @@ export const counterSlice = createSlice({
       );
       state.totalQuantity = state.counterItems
         .map((product) => product.item_quantity)
-        .reduce((a, b) => a + b, 0);
+        .reduce((a, b) => parseInt(a) + parseInt(b), 0);
 
       state.totalSellingPrice = state.counterItems
         .map((product) => product.item_quantity * product.selling_price)

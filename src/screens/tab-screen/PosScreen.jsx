@@ -22,7 +22,8 @@ import CounterModal from "../../components/CounterModal";
 const PosScreen = () => {
   //
   const { filteredProductDataPos } = useSelector((state) => state.product);
-  const { counterItems, cartItem } = useSelector((state) => state.cart);
+  const { counterItems, cartItem, totalQuantity, totalSellingPrice } =
+    useSelector((state) => state.cart);
   const [modalVisible, setModalVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,11 +36,11 @@ const PosScreen = () => {
         handleConfirmAction={{}}
         confirmationMessage={"ENTER AMOUNT"}
         confirmBtnText={"CONFIRM"}
-        cancelBtnText={"CANCEL"}
+        cancelBtnText={"REMOVE"}
         item={cartItem}
       />
       {/* CART */}
-      <View className="flex-2 px-6 border-b border-blue-dianne overflow-scroll">
+      <View className="flex-2 px-4 border-b border-blue-dianne overflow-scroll">
         {/* HEADER */}
         <View className="w-full flex-row justify-between h-16 items-center">
           <Text className="text-2xl font-bold tracking-widest text-blue-dianne">
@@ -51,10 +52,14 @@ const PosScreen = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View className="w-full h-6">
-          <TouchableOpacity onPress={() => dispatch(resetCounter())}>
-            <Text>CLEAR ORDER</Text>
+        <View className="w-full h-6 flex-row justify-between">
+          <TouchableOpacity
+            onPress={() => dispatch(resetCounter())}
+            className="bg-deep-amethyst items-center justify-center rounded-md">
+            <Text className="text-gray-50 px-1 font-bold">CLEAR</Text>
           </TouchableOpacity>
+          <Text className="font-semibold">{`QTY: ${totalQuantity}`}</Text>
+          <Text className="font-semibold">{`TOTAL: $ ${totalSellingPrice}`}</Text>
         </View>
 
         {/* ORDER DISPLAY */}
@@ -69,7 +74,7 @@ const PosScreen = () => {
               />
             )}
             keyExtractor={(item) => item._id}
-            numColumns={3}
+            numColumns={4}
             showsVerticalScrollIndicator={false}
           />
         </View>

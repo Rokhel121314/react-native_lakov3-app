@@ -8,7 +8,7 @@ const OrderItem = ({ item, modalVisible, setModalVisible }) => {
   return (
     <>
       <TouchableOpacity
-        className="flex-row items-center bg-deep-amethyst rounded-3xl mr-3 mb-3"
+        className="flex-row items-center rounded-3xl mr-3 mb-3 border border-blue-dianne w-20 justify-center"
         onPress={async () => {
           await dispatch(getCartItem(item));
           setModalVisible(true);
@@ -17,9 +17,9 @@ const OrderItem = ({ item, modalVisible, setModalVisible }) => {
           source={{
             uri: item.product_image.secure_url,
           }}
-          style={{ width: 50, height: 50, marginLeft: 12 }}
+          style={{ width: 30, height: 30 }}
         />
-        <Text className="text-base pr-6 text-gray-50">{`x ${item.item_quantity}`}</Text>
+        <Text className="text-base text-blue-dianne">{`x ${item.item_quantity}`}</Text>
       </TouchableOpacity>
     </>
   );

@@ -2,7 +2,10 @@ import { View, Text, Modal, TouchableOpacity, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AntDesign } from "@expo/vector-icons";
-import { inputCounterValue } from "../redux/cartSlice";
+import {
+  inputCounterValue,
+  removeProductFromCounter,
+} from "../redux/cartSlice";
 
 const CounterModal = (props) => {
   //
@@ -27,9 +30,6 @@ const CounterModal = (props) => {
   useEffect(() => {
     setItemQuantity(onCounter ? itemQty.toString() : "1");
   }, [item]);
-
-  // console.log("item", item.product_quantity > itemQuantity);
-  console.log("decrement", disableDecrement, "increment", disableIncrement);
 
   const incrementCounter = () => {
     if (item.product_quantity > itemQuantity) {
@@ -57,6 +57,9 @@ const CounterModal = (props) => {
     if (text > item.product_quantity) {
       alert(`STOCK REMAINING: ${item.product_quantity} pcs`);
       setItemQuantity(item.product_quantity.toString());
+    } else if (text === "0") {
+      alert(`MINIMUM PURCHASE OF 1 pc`);
+      setItemQuantity("1");
     } else {
       setItemQuantity(text);
     }
@@ -104,7 +107,10 @@ const CounterModal = (props) => {
             <View className="flex-row justify-around w-full mt-10">
               <TouchableOpacity
                 className="rounded-lg bg-deep-amethyst"
-                onPress={() => setModalVisible(false)}>
+                onPress={async () => {
+                  await dispatch(removeProductFromCounter(item));
+                  setModalVisible(false);
+                }}>
                 <Text className="px-4 py-1 text-gray-50 text-lg font-bold">
                   {cancelBtnText}
                 </Text>
