@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import SearchFilter from "../../components/SearchFilter";
 import FilterButton from "../../components/FilterButton";
 import { useDispatch, useSelector } from "react-redux";
-import CounterItem from "../../components/CounterItem";
+import CounterItemList from "../../components/CounterItemList";
 import {
   searchFilter,
   searchFilterPos,
@@ -18,6 +18,7 @@ import {
 import OrderItem from "../../components/OrderItem";
 import { resetCounter } from "../../redux/cartSlice";
 import CounterModal from "../../components/CounterModal";
+import CounterItemGrid from "../../components/CounterItemGrid";
 
 const PosScreen = () => {
   //
@@ -25,6 +26,7 @@ const PosScreen = () => {
   const { counterItems, cartItem, totalQuantity, totalSellingPrice } =
     useSelector((state) => state.cart);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isGrid, setIsGrid] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -87,11 +89,13 @@ const PosScreen = () => {
           <SearchFilter
             containerStyle={"h-16 flex-row items-center justify-between"}
             textStyle={
-              " bg-gray-50 text-gray-800 py-1  pl-3 border border-blue-dianne rounded-3xl w-full text-md"
+              " bg-gray-50 text-gray-800 py-1  pl-3 border border-blue-dianne rounded-3xl w-10/12 text-md"
             }
             placeHolder={"SEARCH PRODUCT..."}
-            addButton={false}
-            searchFilter={searchFilter}
+            addButton={true}
+            searchFilter={searchFilterPos}
+            iconName={isGrid ? "list" : "grid"}
+            buttonFunction={() => setIsGrid(!isGrid)}
           />
           <FilterButton
             filterFunction={typeFilterPos}
@@ -99,21 +103,42 @@ const PosScreen = () => {
           />
         </View>
         {/* PRODUCT LIST */}
-        <View className="w-full mt-3 flex-1">
-          {/* PRODUCT ITEM */}
-          <FlatList
-            data={filteredProductDataPos}
-            renderItem={({ item, index }) => (
-              <CounterItem
-                item={item}
-                index={index}
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-              />
-            )}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
+        {isGrid ? (
+          <View className="w-full mt-3 flex-1">
+            {/* LIST VIEW */}
+            <FlatList
+              data={filteredProductDataPos}
+              renderItem={({ item, index }) => (
+                <CounterItemList
+                  item={item}
+                  index={index}
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                />
+              )}
+              key={"_"}
+              keyExtractor={(item) => "_" + item._id}
+            />
+          </View>
+        ) : (
+          <View className="w-full mt-3 flex-1">
+            {/* GRID VIEW */}
+            <FlatList
+              data={filteredProductDataPos}
+              renderItem={({ item, index }) => (
+                <CounterItemGrid
+                  item={item}
+                  index={index}
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                />
+              )}
+              key={"#"}
+              keyExtractor={(item) => "#" + item._id}
+              numColumns={4}
+            />
+          </View>
+        )}
       </View>
     </KeyboardAvoidingView>
   );

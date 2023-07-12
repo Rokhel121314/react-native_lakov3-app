@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { addProductToCounter, getCartItem } from "../redux/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import CounterModal from "./CounterModal";
+import { useDispatch } from "react-redux";
 
-const CounterItem = ({ item, setModalVisible }) => {
+
+const CounterItemList = ({ item, setModalVisible }) => {
   //
   const dispatch = useDispatch();
 
@@ -43,4 +43,4 @@ const CounterItem = ({ item, setModalVisible }) => {
   );
 };
 
-export default CounterItem;
+export default CounterItemList;

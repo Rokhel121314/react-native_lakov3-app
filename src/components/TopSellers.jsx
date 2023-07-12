@@ -14,7 +14,7 @@ const TopSellers = ({ title, sortedSalesData, salesProperty }) => {
       <View>
         {!sortedSalesData
           ? null
-          : sortedSalesData.slice(0, sliceLenght).map((item) => {
+          : sortedSalesData?.slice(0, sliceLenght).map((item) => {
               return (
                 <View
                   className="flex-row justify-between"
