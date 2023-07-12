@@ -110,6 +110,8 @@ const CounterModal = (props) => {
                 onPress={async () => {
                   await dispatch(removeProductFromCounter(item));
                   setModalVisible(false);
+                  setDisableDecrement(false);
+                  setDisableIncrement(false);
                 }}>
                 <Text className="px-4 py-1 text-gray-50 text-lg font-bold">
                   {cancelBtnText}
@@ -120,6 +122,8 @@ const CounterModal = (props) => {
                 onPress={async () => {
                   await dispatch(inputCounterValue(payload));
                   setModalVisible(false);
+                  setDisableDecrement(false);
+                  setDisableIncrement(false);
                 }}>
                 <Text className="px-4 py-1 text-gray-50 text-lg font-bold">
                   {confirmBtnText}

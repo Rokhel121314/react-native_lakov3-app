@@ -6,8 +6,8 @@ import FlashMessage, { showMessage } from "react-native-flash-message";
 
 const BezierLineChart = ({ salesDataByDate }) => {
   const labels = salesDataByDate.map((date) => date.transaction_date);
-  const slicedLabels = salesDataByDate.map((date) =>
-    date.transaction_date.slice(0, 5)
+  const slicedLabels = salesDataByDate?.map((date) =>
+    date.transaction_date?.slice(0, 5)
   );
   const data = salesDataByDate.map((amount) => amount.sales_total_amount);
   const [isCollapsed, setIsCollapsed] = useState(true);

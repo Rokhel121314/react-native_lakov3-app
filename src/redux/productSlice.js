@@ -118,6 +118,20 @@ export const productSlice = createSlice({
         });
       }
     },
+
+    searchFilterPos: (state, { payload }) => {
+      if (payload === "") {
+        state.filteredProductDataPos = state.allProductData;
+      } else {
+        state.filteredProductDataPos = state.allProductData.filter(
+          (product) => {
+            return product.product_name
+              .toLowerCase()
+              .includes(payload.toLowerCase());
+          }
+        );
+      }
+    },
     typeFilter: (state, { payload }) => {
       if (payload === "all") {
         state.filteredProductData = state.allProductData;
@@ -190,5 +204,6 @@ export const {
   typeFilter,
   getProductDetail,
   typeFilterPos,
+  searchFilterPos,
 } = productSlice.actions;
 export default productSlice.reducer;

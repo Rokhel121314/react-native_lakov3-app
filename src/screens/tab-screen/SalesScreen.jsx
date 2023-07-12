@@ -64,18 +64,18 @@ const SalesScreen = () => {
   }, [range]);
 
   const salesDataSortedByQty = salesData
-    .slice()
+    ?.slice()
     .sort((a, b) =>
       a.sold_quantity_percentage > b.sold_quantity_percentage ? -1 : 1
     );
 
   const salesDataSortedBySales = salesData
-    .slice()
+    ?.slice()
     .sort((a, b) =>
       a.sold_amount_percentage > b.sold_amount_percentage ? -1 : 1
     );
 
-  if (!salesData) {
+  if (!salesDataByDate) {
     return <LoadingScreen />;
   }
 
@@ -178,7 +178,7 @@ const SalesScreen = () => {
             }
             textStyle1={(className = "text-gray-50 text-lg font-medium")}
             textStyle2={"text-gray-50 text-base font-light"}
-            salesProperty={"CAPITAL"}
+            salesProperty={"PROFIT"}
             salesValue={totalTransactionProfit?.toLocaleString(undefined, {
               minimumFractionDigits: 2,
             })}
