@@ -84,6 +84,24 @@ export const deleteProduct = createAsyncThunk(
   }
 );
 
+// UPDATE PRODUCT QTY AFTER TRANSACTION
+export const updateProductQty = createAsyncThunk(
+  "product/updateProductQty",
+  async (updateProductData) => {
+    const { counterItems, user_id } = updateProductData;
+    try {
+      const response = await Axios.put(
+        `${BASE_URL}/products/${user_id}`,
+        counterItems,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState: {
@@ -194,6 +212,16 @@ export const productSlice = createSlice({
       })
       .addCase(deleteProduct.rejected, (state, { payload }) => {
         state.isSavingProduct = false;
+      })
+      .addCase(updateProductQty.pending, (state, { payload }) => {
+        state.isLoadingProduct = true;
+      })
+      .addCase(updateProductQty.fulfilled, (state, { payload }) => {
+        state.isLoadingProduct = false;
+        state.productData = [];
+      })
+      .addCase(updateProductQty.rejected, (state, { payload }) => {
+        state.isLoadingProduct = false;
       });
   },
 });

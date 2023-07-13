@@ -7,6 +7,25 @@ import { BASE_URL } from "@env";
 
 // EXTRA REDUCERS, ASYNCTHUNKS
 
+// CREATE TRANSACTION
+export const createTransaction = createAsyncThunk(
+  "transaction/createtransction",
+  async (transactionData) => {
+    const { counterData, user_id } = transactionData;
+
+    try {
+      const response = await Axios.post(
+        `${BASE_URL}/transactions/${user_id}`,
+        counterData,
+        { withCredentials: true }
+      );
+      return response.data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+);
+
 // GET ALL TRANSACTIONS
 
 export const getAllTransactions = createAsyncThunk(
@@ -143,7 +162,7 @@ export const transactionSlice = createSlice({
             return sold._id === product._id;
           })
           .map((prod) => prod.item_quantity)
-          .reduce((a, b) => a + b, 0)
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0)
       );
 
       const soldProductQtyPercentage = filteredSoldProductByQty.map(
@@ -156,7 +175,7 @@ export const transactionSlice = createSlice({
             return sold._id === product._id;
           })
           .map((prod) => prod.item_quantity * prod.selling_price)
-          .reduce((a, b) => a + b, 0)
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0)
       );
 
       const soldProductAmountPercentage = filteredSoldProductByAmount.map(
@@ -172,7 +191,7 @@ export const transactionSlice = createSlice({
             (prod) =>
               prod.item_quantity * (prod.selling_price - prod.original_price)
           )
-          .reduce((a, b) => a + b, 0)
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0)
       );
 
       const soldProductProfitPercentage = filteredSoldProductByProfit.map(
@@ -298,10 +317,22 @@ export const transactionSlice = createSlice({
       })
       .addCase(getAllTransactions.fulfilled, (state, { payload }) => {
         state.transactionList = payload;
-        state.filteredTransactionList = payload;
+        state.filteredTransactionList = payload.sort((a, b) =>
+          a.createdAt > b.createdAt ? -1 : 1
+        );
         state.isLoading = false;
       })
       .addCase(getAllTransactions.rejected, (state, { payload }) => {
+        state.isLoading = false;
+      })
+      .addCase(createTransaction.pending, (state, { payload }) => {
+        state.isLoading = true;
+      })
+      .addCase(createTransaction.fulfilled, (state, { payload }) => {
+        state.addedTransaction = payload;
+        state.isLoading = false;
+      })
+      .addCase(createTransaction.rejected, (state, { payload }) => {
         state.isLoading = false;
       });
   },

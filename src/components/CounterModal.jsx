@@ -5,14 +5,14 @@ import { AntDesign } from "@expo/vector-icons";
 import {
   inputCounterValue,
   removeProductFromCounter,
-} from "../redux/cartSlice";
+} from "../redux/counterSlice";
 
 const CounterModal = (props) => {
   //
   const { modalVisible, setModalVisible, confirmBtnText, cancelBtnText, item } =
     props;
 
-  const { counterItems } = useSelector((state) => state.cart);
+  const { counterItems } = useSelector((state) => state.counter);
   const [itemQuantity, setItemQuantity] = useState("1");
   const [disableIncrement, setDisableIncrement] = useState(false);
   const [disableDecrement, setDisableDecrement] = useState(false);

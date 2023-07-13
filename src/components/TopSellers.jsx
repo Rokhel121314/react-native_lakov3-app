@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 const TopSellers = ({ title, sortedSalesData, salesProperty }) => {
   //
 
+  console.log("sortedSalesData", sortedSalesData);
+
   const [sliceLenght, setSlicLength] = useState(5);
   const { allProductData } = useSelector((state) => state.product);
 

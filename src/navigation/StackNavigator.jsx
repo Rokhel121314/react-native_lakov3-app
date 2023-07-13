@@ -13,6 +13,7 @@ import AddProductScreen from "../screens/stack-screen/AddProductScreen";
 import UpdateProductScreen from "../screens/stack-screen/UpdateProductScreen";
 import ViewProductScreen from "../screens/stack-screen/ViewProductScreen";
 import ViewTransactionScreen from "../screens/stack-screen/ViewTransactionScreen";
+import CheckoutScreen from "../screens/stack-screen/CheckoutScreen";
 
 // TAB NAVIGATOR
 import TabNavigator from "./TabNavigator";
@@ -135,6 +136,26 @@ const StackNavigator = ({ navigation }) => {
                 deleteButton={null}
                 saveButton={false}
                 backDestination={"transaction"}
+              />
+            );
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name="checkout"
+        component={CheckoutScreen}
+        options={{
+          header: ({ navigation, route, options, back }) => {
+            return (
+              <StackNavHeader2
+                back={back}
+                navigation={navigation}
+                options={options}
+                title={`PAYMENT`}
+                editButton={false}
+                deleteButton={false}
+                saveButton={false}
               />
             );
           },

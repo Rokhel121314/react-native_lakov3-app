@@ -1,8 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { addProductToCounter, getCartItem } from "../redux/cartSlice";
+import { addProductToCounter, getCartItem } from "../redux/counterSlice";
 import { useDispatch } from "react-redux";
-
 
 const CounterItemList = ({ item, setModalVisible }) => {
   //
