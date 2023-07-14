@@ -16,15 +16,15 @@ import {
   typeFilterPos,
 } from "../../redux/productSlice";
 import OrderItem from "../../components/OrderItem";
-import { resetCounter } from "../../redux/cartSlice";
+import { resetCounter } from "../../redux/counterSlice";
 import CounterModal from "../../components/CounterModal";
 import CounterItemGrid from "../../components/CounterItemGrid";
 
-const PosScreen = () => {
+const PosScreen = ({ navigation }) => {
   //
   const { filteredProductDataPos } = useSelector((state) => state.product);
   const { counterItems, cartItem, totalQuantity, totalSellingPrice } =
-    useSelector((state) => state.cart);
+    useSelector((state) => state.counter);
   const [modalVisible, setModalVisible] = useState(false);
   const [isGrid, setIsGrid] = useState(true);
 
@@ -48,7 +48,13 @@ const PosScreen = () => {
           <Text className="text-2xl font-bold tracking-widest text-blue-dianne">
             ORDERS
           </Text>
-          <TouchableOpacity className="bg-blue-dianne rounded-3xl">
+          <TouchableOpacity
+            className="bg-blue-dianne rounded-3xl"
+            onPress={() => {
+              counterItems.length !== 0
+                ? navigation.navigate("checkout")
+                : alert("CART IS EMPTY");
+            }}>
             <Text className="px-4 py-3 text-gray-50 tracking-wider">
               CHECK OUT
             </Text>

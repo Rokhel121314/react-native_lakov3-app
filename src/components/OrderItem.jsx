@@ -1,6 +1,6 @@
 import { TouchableOpacity, Text, Image } from "react-native";
 import React from "react";
-import { getCartItem } from "../redux/cartSlice";
+import { getCartItem } from "../redux/counterSlice";
 import { useDispatch } from "react-redux";
 
 const OrderItem = ({ item, modalVisible, setModalVisible }) => {
