@@ -178,7 +178,9 @@ export const productSlice = createSlice({
       .addCase(getAllProduct.fulfilled, (state, { payload }) => {
         state.allProductData = payload;
         state.filteredProductData = payload;
-        state.filteredProductDataPos = payload;
+        state.filteredProductDataPos = payload.filter(
+          (product) => product.product_quantity !== 0
+        );
         state.isLoadingProduct = false;
       })
       .addCase(updateProduct.pending, (state, { payload }) => {

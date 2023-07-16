@@ -46,13 +46,10 @@ const CheckoutScreen = ({ navigation }) => {
     counterItems: counterItems,
   };
 
-  console.log("counterData", transactionData);
-
   const [modalVisible, setModalVisible] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [disableSubmit, setdisableSubmit] = useState(true);
   const { isLoading } = useSelector((state) => state.transaction);
-  console.log("isLoading", isLoading);
 
   const handleSubmit = async () => {
     await dispatch(createTransaction(transactionData));
