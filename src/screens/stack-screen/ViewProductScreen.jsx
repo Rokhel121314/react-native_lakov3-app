@@ -1,12 +1,23 @@
 import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
-import { useRoute } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import PropertyValueItem from "../../components/PropertyValueItem";
 import PropertyValuePercentItem from "../../components/PropertyValuePercentItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getSalesDataByDateOfProduct } from "../../redux/transactionSlice";
 
 const ViewProductScreen = () => {
   const { productDetail } = useSelector((state) => state.product);
+  const { salesData, perProductSalesDataByDate } = useSelector(
+    (state) => state.transaction
+  );
+  const dispatch = useDispatch();
+  const productStats = salesData.filter(
+    (product) => product.product_id === productDetail._id
+  );
+
+  useEffect(() => {
+    dispatch(getSalesDataByDateOfProduct(productDetail));
+  }, [productDetail]);
 
   const productName =
     productDetail.product_name.charAt(0).toUpperCase() +
@@ -97,8 +108,10 @@ const ViewProductScreen = () => {
             description={"GROSS SALES"}
             prefixUnit={"$"}
             suffixUnit={null}
-            value={productDetail.original_price.toFixed(2)}
-            percentValue={`${1.56} %`}
+            value={productStats[0]?.sold_amount_total.toFixed(2)}
+            percentValue={`${productStats[0]?.sold_amount_percentage.toFixed(
+              2
+            )} %`}
           />
 
           <PropertyValuePercentItem
@@ -112,8 +125,10 @@ const ViewProductScreen = () => {
             description={"NET SALES"}
             prefixUnit={"$"}
             suffixUnit={null}
-            value={productDetail.selling_price.toFixed(2)}
-            percentValue={`${1.56} %`}
+            value={productStats[0]?.sold_profit_total.toFixed(2)}
+            percentValue={`${productStats[0]?.sold_profit_percentage.toFixed(
+              2
+            )} %`}
           />
         </View>
 
@@ -129,24 +144,12 @@ const ViewProductScreen = () => {
             description={"SOLD"}
             prefixUnit={null}
             suffixUnit={"pcs"}
-            value={productDetail.selling_price.toFixed(2)}
-            percentValue={`${1.56} %`}
+            value={productStats[0]?.sold_quantity_total.toFixed(2)}
+            percentValue={`${productStats[0]?.sold_quantity_percentage.toFixed(
+              2
+            )} %`}
           />
-
-          <PropertyValuePercentItem
-            viewStyle1={"w-9/12"}
-            viewStyle2={"items-start"}
-            textStyle1={"text-sm text-gray-500 font-bold"}
-            textStyle2={"text-xl text-gray-950 font-bold"}
-            textStyle3={
-              "bg-blue-dianne text-gray-50 px-2 py-1 rounded-3xl text-xs"
-            }
-            description={"SOLD"}
-            prefixUnit={null}
-            suffixUnit={"pcs"}
-            value={productDetail.selling_price.toFixed(2)}
-            percentValue={`${1.56} %`}
-          />
+          <View className="w-9/12 h-20"></View>
         </View>
       </View>
     </View>
