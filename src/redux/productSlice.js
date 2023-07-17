@@ -162,11 +162,13 @@ export const productSlice = createSlice({
 
     typeFilterPos: (state, { payload }) => {
       if (payload === "all") {
-        state.filteredProductDataPos = state.allProductData;
-      } else {
         state.filteredProductDataPos = state.allProductData.filter(
-          (product) => product.product_type === payload
+          (product) => product.product_quantity !== 0
         );
+      } else {
+        state.filteredProductDataPos = state.allProductData
+          .filter((product) => product.product_type === payload)
+          .filter((product) => product.product_quantity !== 0);
       }
     },
   },
