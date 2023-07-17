@@ -18,7 +18,7 @@ const LogoutButton = () => {
   }, [uid]);
   return (
     <TouchableOpacity
-      className="bg-blue-dianne"
+      className="bg-deep-amethyst w-full items-center"
       onPress={() => {
         fireBaseLogout().then(() =>
           removeUserInfo().then(() => {
@@ -28,7 +28,9 @@ const LogoutButton = () => {
           })
         );
       }}>
-      <Text className="px-5 py-2">Log out</Text>
+      <Text className="py-3 text-gray-50 text-lg font-semibold tracking-widest">
+        Sign out
+      </Text>
     </TouchableOpacity>
   );
 };
