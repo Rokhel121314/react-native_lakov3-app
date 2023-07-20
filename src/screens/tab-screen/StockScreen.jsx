@@ -5,16 +5,29 @@ import {
   StatusBar,
   FlatList,
 } from "react-native";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProductItem from "../../components/ProductItem";
 import FilterButton from "../../components/FilterButton";
 import SearchFilter from "../../components/SearchFilter";
 import { searchFilter, typeFilter } from "../../redux/productSlice";
+import {
+  getSalesData,
+  getTransactionTotals,
+} from "../../redux/transactionSlice";
 
 const StockScreen = ({ navigation }) => {
   //
-  const { filteredProductData } = useSelector((state) => state.product);
+  const { filteredProductData, allProductData } = useSelector(
+    (state) => state.product
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTransactionTotals());
+    dispatch(getSalesData(allProductData));
+  }, [allProductData]);
 
   return (
     <>

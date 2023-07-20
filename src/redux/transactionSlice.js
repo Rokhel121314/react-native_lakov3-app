@@ -295,7 +295,7 @@ export const transactionSlice = createSlice({
             product.transaction_sold_items.filter((x) => x._id === payload._id)
           )
           .map((p) => p.map((q) => q.item_quantity).reduce((a, b) => a + b, 0))
-          .reduce((a, b) => a + b, 0)
+          .reduce((a, b) => parseInt(a) + parseInt(b), 0)
       );
 
       for (let i = 0; i < dateFilter.length; i++) {
